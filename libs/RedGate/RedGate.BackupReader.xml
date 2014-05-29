@@ -1,0 +1,3362 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RedGate.BackupReader</name>
+    </assembly>
+    <members>
+        <member name="T:RedGate.BackupReader.BackupReaderCommandBase">
+            <summary>
+            Base class for BackupReader commands
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.ExecuteReader">
+            
+             Summary:
+                 Executes the System.Data.IDbCommand.CommandText against the System.Data.IDbCommand.Connection
+                 and builds a BackupDataReader.
+            
+             Returns:
+                 A BackupDataReader object.
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.System#Data#IDbCommand#ExecuteReader">
+            
+             Summary:
+                 Executes the System.Data.IDbCommand.CommandText against the System.Data.IDbCommand.Connection
+                 and builds an System.Data.IDataReader.
+            
+             Returns:
+                 An System.Data.IDataReader object.
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.Cancel">
+            <summary>
+            Not yet implemented
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.Prepare">
+            <summary>
+            Intentional No-op
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.Dispose">
+            <summary>
+            Frees up resources associated with this object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.ExecuteNonQuery">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.ExecuteReader(System.Data.CommandBehavior)">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.ExecuteScalar">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderCommandBase.CreateParameter">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderCommandBase.CommandText">
+            <summary>
+            Gets or sets the text command to run against the data source.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderCommandBase.CommandType">
+            <summary>
+            Indicates or specifies how the System.Data.IDbCommand.CommandText property
+                is interpreted. In this implementation, only CommandType.Text is supported.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderCommandBase.Connection">
+            <summary>
+            Gets or sets the System.Data.IDbConnection used by 
+            this instance of the System.Data.IDbCommand.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderCommandBase.Parameters">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderCommandBase.Transaction">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderCommandBase.UpdatedRowSource">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderCommandBase.CommandTimeout">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RedGate.BackupReader.BackupCommand">
+            <summary>
+                Represents an SQL statement that is executed while connected to a data source,
+                and is implemented by .NET Framework data providers that access relational
+                databases.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupCommand.#ctor(RedGate.BackupReader.BackupConnection)">
+            <summary>
+            Creates an instance of the BackupCommand class, using the specified connection.
+            </summary>
+            <param name="connection">BackupConnection to associate this BackupCommand with</param>
+        </member>
+        <member name="T:RedGate.BackupReader.BackupConnection">
+            <summary>
+            An implementation of IDbConnection for reading data from MS SQL Server backup files
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.#ctor">
+            <summary>
+            Creates a new BackupConnection object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.#ctor(System.Reflection.Assembly)">
+            <summary>
+            Creates a new BackupConnection object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.PopulateAdditionalSystemTables(System.Collections.Generic.List{RedGate.Shared.SQL.BackupReaderInterfaces.ITableName})">
+            <summary>
+            Populates one or more system tables in addition to those already populated during the call to
+            Open().
+            
+            The BackupConnection must be in the Open state before calling this method. Progress may be given
+            by setting the Status event handler in a similar way to the Open call. Progress will range from
+            0% to 100% over the course of all the tables to be populated.
+            </summary>
+            <param name="tables">A list of the schema-qualified names of the tables to populate</param>
+            <exception cref="T:System.ArgumentException">Throws ArgumentException if a specified table has
+            already been populated.</exception>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.PopulateAdditionalSystemTables(RedGate.Shared.SQL.BackupReaderInterfaces.ITableName[])">
+            <summary>
+            Populates one or more system tables in addition to those already populated during the call to
+            Open().
+            
+            The BackupConnection must be in the Open state before calling this method. Progress may be given
+            by setting the Status event handler in a similar way to the Open call. Progress will range from
+            0% to 100% over the course of all the tables to be populated.
+            </summary>
+            <param name="tables">The schema-qualified name(s) of the tables to populate</param>
+            <exception cref="T:System.ArgumentException">Throws ArgumentException if a specified table has
+            already been populated.</exception>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.IsPasswordRequired">
+            <summary>
+            Returns whether a password is required for any of the files specified in the connection string,
+            less any passwords that have already been specified on the connection string.
+            
+            That is, if the connection string specifies files f1.sqb and f2.sqb, with passwords p1 and p2,
+            this method will return true until p1 and p2 are both set. However, if an additional file f3.sqb
+            is also specified, with no password, this will return false if p1 and p2 are already specified.
+            </summary>
+            <returns>True if further passwords are required, false otherwise</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.GetBackupSets">
+            <summary>
+            Gets a list of all the backup sets available in the files specified by the
+            ConnectionString. If the ConnectionString is not valid, or has not been set,
+            an InvalidOperationException is thrown.
+            
+            This call may be quite expensive, especially if the files are SQB, since
+            all the extents need to be mapped.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.UseBackupSet(RedGate.Shared.SQL.BackupReaderInterfaces.IBackupSet)">
+            <summary>
+            Sets the backup set to be used by this connection. Must be one of the values returned from
+            GetBackupSets(). 
+            
+            This call may be quite expensive, especially if the files are SQB, since
+            all the extents need to be mapped.
+            </summary>
+            <param name="ibackupSet">The backup set to use for this connection</param>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.CreateCommand">
+            <summary>
+            Creates a BackupCommand object for executing against the main data source
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.CreateSysTableCommand">
+            <summary>
+            Creates a command on to the queryable system table store
+            </summary>
+            <returns>An instance of IDbCommand connected to the system table store</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.OpenForMetaInformation">
+            <summary>
+            Opens the BackupConnection to access database information from the source specified in the ConnectionString. Cheap but not
+            suitable to retrieve actual data / structure from the database - only meta information.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.Open">
+            <summary>
+            Opens the BackupConnection to the source specified in the ConnectionString. Expensive.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.PreFetchPerformanceCounter(System.Object)">
+            <summary>
+            Causes the index page cache to start pre-fetching the performance counter, which might take a few seconds.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.Close">
+            <summary>
+            Closes the BackupConnection. If executed while Open() is still executing, the Open()
+            operation should be cancelled as soon as possible.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.Dispose">
+            <summary>
+            Not implemented yet
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.CancelOperation">
+            <summary>
+            Cancels the operation.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.BeginTransaction">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupConnection.ChangeDatabase(System.String)">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.ConnectionString">
+            <summary>
+            AttachFilename="C:\File1";AttachFilename="C:\File2"
+            AttachFilename=C:\File1;AttachFilename=C:\File2
+            AttachFilename=c:\blah\backup.sqb (SQL Backup)
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.CurrentBackupSet">
+            <summary>
+            Returns the current active backup set
+            </summary>
+            <returns>The active BackupSet</returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.BackupTemporaryDirectory">
+            <summary>
+            Get the temporary backup data store directory or null if it doesn't exist
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.SQLServerInternalVersionNumber">
+            <summary>
+            Returns the internal SQL Server version number
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.Version">
+            <summary>
+            Returns 7, 8, 9 - SQL7, SQL2000, SQL2005
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.CompatibilityVersion">
+            <summary>
+            Returns 7, 8, 9, 10 - SQL7, SQL2000, SQL2005, Katmai
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.DatabaseGuid">
+            <summary>
+            Gets the Database GUID (Family GUID) for decryption in SQL Server 2K
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.State">
+            <summary>
+            Open or Closed
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.Session">
+            <summary>
+            Gets the BackupReaderSession associated with this connection
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.Status">
+            <summary>
+            An event handler for providing progress feedback.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.ConnectionTimeout">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupConnection.Database">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RedGate.BackupReader.BackupDataReader">
+            <summary>
+            An implementation of IDataReader for reading data from MS SQL Server backup files
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.Close">
+            <summary>
+            Closes the BackupReader 0bject. 
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.Read">
+            <summary>
+            Advances the BackupReader to the next record. 
+            </summary>
+            <returns>true if there are more rows; otherwise, false.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.Dispose">
+            <summary>
+            Frees any resources associated with this object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetBoolean(System.Int32)">
+            <summary>
+            Gets the boolean value of the specified field
+            </summary>
+            <param name="i">The zero-based column ordinal</param>
+            <returns>The value of the column</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlBoolean(System.Int32)">
+            <summary>
+            Gets the SqlBoolean value of the specified field
+            </summary>
+            <param name="i">The zero-based column ordinal</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetByte(System.Int32)">
+            <summary>
+            Gets the 8-bit unsigned integer value of the specified column
+            </summary>
+            <param name="i">The zero-based column ordinal</param>
+            <returns>The 8-bit unsigned integer value of the specified column</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlByte(System.Int32)">
+            <summary>
+            Gets the 8-bit unsigned integer value of the specified column
+            </summary>
+            <param name="i">The zero-based column ordinal</param>
+            <returns>The 8-bit unsigned integer value of the specified column</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of bytes from the specified column offset into the buffer
+            as an array, starting at the given buffer offset. If the target buffer is null, then the number
+            of bytes available in the field is returned.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <param name="fieldOffset">The index within the field from which to start the read operation.</param>
+            <param name="buffer">The buffer into which to read the stream of bytes.</param>
+            <param name="bufferoffset">The index for buffer to start the read operation.</param>
+            <param name="length">The number of bytes to read.</param>
+            <returns>The actual number of bytes read.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlBytes(System.Int32)">
+            <summary>
+            Returns an array of bytes corresponding to the contents of the specified field
+            </summary>
+            <param name="i">The zero-based column ordinal</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlBinary(System.Int32)">
+            <summary>
+            Returns a SqlBinary corresponding to the contents of the specified field
+            </summary>
+            <param name="i">The zero-based column ordinal</param>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetChar(System.Int32)">
+            <summary>
+            Gets the character value of the specified column.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <returns>The character value of the specified column.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of characters from the specified column offset into the buffer
+                as an array, starting at the given buffer offset.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <param name="fieldOffset">The index within the row from which to start the read operation.</param>
+            <param name="buffer">The buffer into which to read the stream of bytes.</param>
+            <param name="bufferoffset">The index for buffer to start the read operation.</param>
+            <param name="length">The number of bytes to read.</param>
+            <returns>The actual number of characters read.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlChars(System.Int32)">
+            <summary>
+            Gets a SqlChars object representing the string value of the column
+            </summary>
+            <param name="i">Zero-based column ordinal</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetDataTypeName(System.Int32)">
+            <summary>
+            Gets the data type information for the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns> The data type information for the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetDateTime(System.Int32)">
+            <summary>
+            Gets the date and time data value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The date and time data value of the spcified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlDateTime(System.Int32)">
+            <summary>
+            Gets the date and time data value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The date and time data value of the spcified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetDecimal(System.Int32)">
+            <summary>
+            Gets the fixed-position numeric value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The fixed-position numeric value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlDecimal(System.Int32)">
+            <summary>
+            Gets the fixed-position numeric value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The fixed-position numeric value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetDouble(System.Int32)">
+            <summary>
+            Gets the double-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The double-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlDouble(System.Int32)">
+            <summary>
+            Gets the double-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The double-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetFieldType(System.Int32)">
+            <summary>
+            Gets the System.Type information corresponding to the type of System.Object
+                that would be returned from System.Data.IDataRecord.GetValue(System.Int32).
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The System.Type information corresponding to the type of System.Object that
+                would be returned from System.Data.IDataRecord.GetValue(System.Int32).</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetFloat(System.Int32)">
+            <summary>
+            Gets the single-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The single-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlSingle(System.Int32)">
+            <summary>
+            Gets the single-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The single-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetGuid(System.Int32)">
+            <summary>
+            Returns the GUID value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The GUID value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlGuid(System.Int32)">
+            <summary>
+            Returns the GUID value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The GUID value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetInt16(System.Int32)">
+            <summary>
+            Gets the 16-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 16-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlInt16(System.Int32)">
+            <summary>
+            Gets the 16-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 16-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetInt32(System.Int32)">
+            <summary>
+            Gets the 32-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 32-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlInt32(System.Int32)">
+            <summary>
+            Gets the 32-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 32-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetInt64(System.Int32)">
+            <summary>
+            Gets the 64-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 64-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlInt64(System.Int32)">
+            <summary>
+            Gets the 64-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 64-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetName(System.Int32)">
+            <summary>
+            Gets the name for the field to find.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The name of the field or the empty string (""), if there is no value to return.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlMoney(System.Int32)">
+            <summary>
+            Gets the SqlMoney value of the specified field
+            </summary>
+            <param name="i">The zero-based index of the field to get</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetOrdinal(System.String)">
+            <summary>
+            Return the index of the named field.
+            </summary>
+            <param name="name">The name of the field to find.</param>
+            <returns>The index of the named field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetString(System.Int32)">
+            <summary>
+            Gets the string value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The string value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlString(System.Int32)">
+            <summary>
+            Gets the string value of the specified field.
+            
+            This also works for XML fields (SQL 2005), where the original XML string is returned.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The string value of the specified field.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlXml(System.Int32)">
+            <summary>
+            Gets the XML value of the specified field.
+            
+            Note: MSXML doesn't preserve newlines correctly - the original XML uses LF as newline,
+            but the result of SqlXml.Value uses CRLF instead. This causes SQL Data Compare to consider
+            them different, and hence this method should not be used where this is important.
+            </summary>
+            <param name="i">Zero-based index of the field</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlVariant(System.Int32)">
+            <summary>
+            Gets the SqlVariant value of the specified field
+            </summary>
+            <param name="i">Zero-based index of the field</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlTime(System.Int32)">
+            <summary>
+            Gets a string representation of the Sql Server 2008 SqlTime object
+            </summary>
+            <param name="i">Zero-based index of the field</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlDate(System.Int32)">
+            <summary>
+            Gets a string representation of the Sql Server 2008 SqlDate object
+            </summary>
+            <param name="i">Zero-based index of the field</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlDateTime2(System.Int32)">
+            <summary>
+            Gets a string representation of the Sql Server 2008 SqlDateTime2 object
+            </summary>
+            <param name="i">Zero-based index of the field</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSqlDateTimeOffset(System.Int32)">
+            <summary>
+            Gets a string representation of the Sql Server 2008 SqlDateTimeOffset object
+            </summary>
+            <param name="i">Zero-based index of the field</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetValue(System.Int32)">
+            <summary>
+            Return the value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The System.Object which will contain the field value upon return.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetValues(System.Object[])">
+            <summary>
+            Gets all the attribute fields in the collection for the current record.
+            </summary>
+            <param name="values">An array of System.Object to copy the attribute fields into.</param>
+            <returns>The number of instances of System.Object in the array.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetDataStream(System.Int32)">
+            <summary>
+            Gets a stream for the field specified. The stream is not necessarily seekable, but does
+            allow memory-efficient access to large BLOBs, as fragments are only read in as required.
+            </summary>
+            <param name="i">Zero-based index of the field</param>
+            <returns>A Stream corresponding to the raw data of the field requested, or null.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.IsDBNull(System.Int32)">
+            <summary>
+            Return whether the specified field is set to null.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>true if the specified field is set to null. Otherwise, false.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.CollationNameFromId(System.Int32)">
+            <summary>
+            Get the string version of the collation
+            </summary>
+            <param name="id">collation id</param>
+            <returns>collation</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetData(System.Int32)">
+            <summary>
+            Not implemented
+            </summary>
+            <param name="i"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.GetSchemaTable">
+            <summary>
+            Not implemented
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupDataReader.NextResult">
+            <summary>
+            Not implemented
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupDataReader.Depth">
+            <summary>
+            Gets a value indicating the depth of nesting for the current row.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupDataReader.IsClosed">
+            <summary>
+            Gets a value indicating whether the data reader is closed.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupDataReader.FieldCount">
+            <summary>
+            Gets the number of fields in each row
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupDataReader.Item(System.String)">
+            <summary>
+            Gets the column with the specified name.
+            </summary>
+            <param name="name">The name of the column to find.</param>
+            <returns>The column with the specified name as an System.Object.</returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupDataReader.Item(System.Int32)">
+            <summary>
+            Gets the column located at the specified index.
+            </summary>
+            <param name="i">The index of the column to get.</param>
+            <returns>The column located at the specified index as an System.Object.</returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupDataReader.RecordsAffected">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.BackupReaderException">
+            <summary>
+            An exception thrown from within the BackupReader
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderException.#ctor">
+            <summary>
+            Creates a new exception.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderException.#ctor(System.String)">
+            <summary>
+            Creates a new exception with the specified detail message.
+            </summary>
+            <param name="message">Detail message.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new exception with the specified detail message that
+            was caused by the supplied exception.
+            </summary>
+            <param name="message">Detail message.</param>
+            <param name="cause">Cause of exception.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupReaderException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see XML and SOAP Serialization.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderSession.FDBI">
+            <summary>
+            Exposed for testing only
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupReaderSession.SysTableStore">
+            <summary>
+            Exposed for testing only
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.BackupSet">
+            <summary>
+            A representation of a single backup set - i.e. the result of a "BACKUP DATABASE..."
+            statement. There may be many backup sets in one physical file, or many physical files
+            required for one backup set (if the backup is RAIDed).
+            
+            BackupSet objects are serializable to allow persistence in saved projects, and do not
+            contain references to the physical files they were originally derived from. It is the
+            responsibility of the user to ensure that the required physical files are specified
+            when attempting to use a BackupSet.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupSet.Deserialize(System.Int32,RedGate.Shared.Utils.IO.Serialization.ISerializeFormatter)">
+            <summary>
+            This method deserializes the object from the current serialization
+            </summary>
+            <param name="versionId">The version of the serialized data</param>
+            <param name="formatter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupSet.Serialize(RedGate.Shared.Utils.IO.Serialization.ISerializeFormatter)">
+            <summary>
+             Serialize up you data. (Nb the version number has already been added in)
+            </summary>
+            <param name="formatter"></param>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupSet.#ctor">
+            <summary>A parameterless constructor needed for IRedGateSerializable.</summary>
+            <exclude/>
+            <excludetoc/>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupSet.PopulateWithExtraMtfFields(RedGate.LogRescue.Engine.MTF.DatabaseBackup)">
+            <summary>
+            Populates some of the fields that we're missing from the SQB header
+            with those from an appropriate MTF DatabaseBackup.
+            </summary>
+            <param name="dbb"></param>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupSet.CompareTo(RedGate.BackupReader.BackupSet)">
+            <summary>
+            Compares the current object with another BackupSet object
+            </summary>
+            <param name="other">A BackupSet to compare with this object.</param>
+            <returns>A 32-bit signed integer that indicates the relative order of the objects
+            being compared. The return value has the following meanings: Value Meaning
+            Less than zero This object is less than the other parameter.Zero This object
+            is equal to other. Greater than zero This object is greater than other. 
+            </returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupSet.Equals(System.Object)">
+            <summary>
+            Returns whether this BackupSet is equal to the object specified
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.BackupSet.GetHashCode">
+            <summary>
+            Gets a hash code representing this object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.Encrypted">
+            <summary>
+            Returns whether the BackupSet is encrypted or not.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.IsIncomplete">
+            <summary>
+            Returns whether the BackupSet is incomplete or not.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.CanHandle">
+            <summary>
+            Gets whether SQL Backup Reader is able to handle this BackupSet. This should be
+            used by the user interface to determine whether the user is allowed to select
+            this backup set.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.DatabaseName">
+            <summary>
+            The original database name
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.ServerName">
+            <summary>
+            The server from which the database was backed up
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.StartDate">
+            <summary>
+            The date and time the backup began
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.EndDate">
+            <summary>
+            The date and time the backup completed
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.BackupType">
+            <summary>
+            The type of backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.Version">
+            <summary>
+            This is the current latest version of your serialized data.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.FirstLsn">
+            <summary>
+            First log sequence number of this backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.LastLsn">
+            <summary>
+            Last log sequence number of this backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.CheckpointLsn">
+            <summary>
+            Log sequence number of most recent checkpoint of this backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.FullBackupLsn">
+            <summary>
+            Log sequence number of the full backup associated with this backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.Size">
+            <summary>
+            Size (in bytes) of this backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.BackupSet.Name">
+            <summary>
+            The name of the backupset, if one is set.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.CollationHelper">
+            <summary>
+            A helper class for collation related tasks
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.CollationHelper.CodepageLookupSetup">
+            <summary>
+            Sets up the collation ID to codepage ID lookup table. This information
+            was taken from <a href="http://msdn2.microsoft.com/en-us/library/ms143508.aspx">MSDN</a>,
+            and munged in Excel into the following code.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.CollationHelper.CollationNameFromId(System.Int32)">
+            <summary>
+            Retrieves the string collation name (such as SQL_EBCDIC297_CP1_CS_AS) given the
+            SQL Server Collation ID number.
+            
+            Throws an ArgumentException if the collation name cannot be found.
+            </summary>
+            <param name="id">Collation ID</param>
+            <returns>Collation name</returns>
+            <exception cref="T:System.ArgumentException">if the collation ID isn't known</exception>
+        </member>
+        <member name="M:RedGate.BackupReader.CollationHelper.CodePageFromCollationID(System.Int32)">
+            <summary>
+            Retrieves the codepage associated with a collation ID from the collation's ID.
+            </summary>
+            <param name="id">ID of the collation</param>
+            <returns>ID of the codepage</returns>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.Bin2CollationComparer">
+            <summary>
+            This class is used to compare two strings in the same way used
+            for a bin2 collation in sql server. 
+            </summary>
+            <remarks>
+            There is one major bug with this code and that is that 
+            sql server can map several character the same from Sql Server 
+            to the same character in .net string. This means that
+            there is no way of getting the original characters that came Sql 
+            Server so it is impossible to emulate SqlServer completely.
+            If you are trying to understand the code make sure you read 
+            http://blogs.msdn.com/michkap/search.aspx?q=bin2&amp;p=1
+            </remarks>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collation.Bin2CollationComparer.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            Create a new instance of Bin2CollationComparer to compare
+            string in the same way as a bin2 collation
+            </summary>
+            <param name="LCID">The Locale ID of the Collation.</param>
+            <param name="unicode">Set to true if the strings came from a 
+            Unicode column like NCHAR or NVARCHAR. Set to false if
+            the strings came from a VARCHAR or CHAR column</param>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collation.Bin2CollationComparer.Compare(System.String,System.String)">
+            <summary>
+            This method compares two strings using the same method
+            as IComparer but with string arguments to avoid a cast.
+            </summary>
+            <param name="string1">First string to compare</param>
+            <param name="string2">The second string to compare</param>
+            <returns> -1 if string1 less than string2. 0 if string1 equals string2
+            1 if string1 is greater than string2 </returns>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.BinCollationComparer">
+            <summary>
+            This class is used to compare two strings in the same way used
+            for a bin collation in sql server. 
+            </summary>
+            <remarks>
+            There is one major bug with this code and that is that 
+            sql server can map several character the same from Sql Server 
+            to the same character in .net string. This means that
+            there is no way of getting the original characters that came Sql 
+            Server so it is impossible to emulate SqlServer completely.
+            If you are trying to understand the code make sure you read 
+            http://blogs.msdn.com/michkap/search.aspx?q=bin2&amp;p=1
+            </remarks>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collation.BinCollationComparer.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            Create a new instance of Bin2CollationComparer to compare
+            string in the same way as a bin2 collation
+            </summary>
+            <param name="LCID">The Locale ID of the Collation.</param>
+            <param name="unicode">Set to true if the strings came from a 
+            Unicode column like NCHAR or NVARCHAR. Set to false if
+            the strings came from a VARCHAR or CHAR column</param>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collation.BinCollationComparer.Compare(System.String,System.String)">
+            <summary>
+            This method compares two strings using the same method
+            as IComparer but with string arguments to avoid a cast.
+            </summary>
+            <param name="string1">First string to compare</param>
+            <param name="string2">The second string to compare</param>
+            <returns> -1 if string1 less than string2. 0 if string1 equals string2
+            1 if string1 is greater than string2 </returns>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_1xCompat_CP850_CI_AS">
+            <summary>
+            Summary description for SQL_1Xcompat_CP850_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.SqlCollationComparer">
+            <summary>
+            Use SqlCollationComparer.GetComparer to return a SqlCollationComparer
+            which will compare strings in the same way as SQL Server does for its 
+            Sql Server version 7 compatable collations.
+            </summary>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collation.SqlCollationComparer.GetComparer(System.String)">
+            <summary>
+            This method return a SqlCollationComparer that will 
+            compare strings in the same way as a SQL Sever version 7
+            collation. 
+            </summary>
+            <param name="collationName">The name of the collation in lower case</param>
+            <returns>SqlCollationComparer that will compare in the same way
+            as the collation, or null if collation not supported</returns>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collation.SqlCollationComparer.Compare(System.String,System.String)">
+            <summary>
+            This method compares two strings using the same method
+            as IComparer but with string arguments to avoid a cast.
+            </summary>
+            <param name="x">First string to compare</param>
+            <param name="y">The second string to compare</param>
+            <returns> -1 if x less than y. 0 if x equals y
+            1 if x is greater than y </returns>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_AltDiction2_CP1253_CS_AS">
+            <summary>
+            Summary description for SQL_AltDiction2_CP1253_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_AltDiction_CP1253_CS_AS">
+            <summary>
+            Summary description for SQL_AltDiction_CP1253_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_AltDiction_CP850_CI_AI">
+            <summary>
+            Summary description for SQL_AltDiction_CP850_CI_AI.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_AltDiction_CP850_CI_AS">
+            <summary>
+            Summary description for SQL_AltDiction_CP850_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_AltDiction_CP850_CS_AS">
+            <summary>
+            Summary description for SQL_AltDiction_CP850_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_AltDiction_Pref_CP850_CI_AS">
+            <summary>
+            Summary description for SQL_AltDiction_Pref_CP850_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Croatian_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Croatian_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Croatian_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Croatian_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Czech_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Czech_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Czech_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Czech_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Danish_Pref_CP1_CI_AS">
+            <summary>
+            Summary description for SQL_Danish_Pref_CP1_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC037_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC037_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC273_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC273_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC277_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC277_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC278_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC278_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC280_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC280_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC284_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC284_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC285_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC285_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_EBCDIC297_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_EBCDIC297_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Estonian_CP1257_CI_AS">
+            <summary>
+            Summary description for SQL_Estonian_CP1257_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Estonian_CP1257_CS_AS">
+            <summary>
+            Summary description for SQL_Estonian_CP1257_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Hungarian_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Hungarian_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Hungarian_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Hungarian_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Icelandic_Pref_CP1_CI_AS">
+            <summary>
+            Summary description for SQL_Icelandic_Pref_CP1_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1251_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1251_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1251_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1251_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1253_CI_AI">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1253_CI_AI.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1253_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1253_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1253_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1253_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1254_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1254_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1254_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1254_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1255_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1255_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1255_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1255_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1256_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1256_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1256_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1256_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1257_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1257_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1257_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1257_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1_CI_AI">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1_CI_AI.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP1_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP1_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP437_CI_AI">
+            <summary>
+            Summary description for SQL_Latin1_General_CP437_CI_AI.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP437_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP437_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP437_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP437_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP850_CI_AI">
+            <summary>
+            Summary description for SQL_Latin1_General_CP850_CI_AI.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP850_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP850_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_CP850_CS_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_CP850_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_Pref_CP1_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_Pref_CP1_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_Pref_CP437_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_Pref_CP437_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latin1_General_Pref_CP850_CI_AS">
+            <summary>
+            Summary description for SQL_Latin1_General_Pref_CP850_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latvian_CP1257_CI_AS">
+            <summary>
+            Summary description for SQL_Latvian_CP1257_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Latvian_CP1257_CS_AS">
+            <summary>
+            Summary description for SQL_Latvian_CP1257_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Lithuanian_CP1257_CI_AS">
+            <summary>
+            Summary description for SQL_Lithuanian_CP1257_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Lithuanian_CP1257_CS_AS">
+            <summary>
+            Summary description for SQL_Lithuanian_CP1257_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_MixDiction_CP1253_CS_AS">
+            <summary>
+            Summary description for SQL_MixDiction_CP1253_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Polish_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Polish_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Polish_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Polish_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Romanian_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Romanian_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Romanian_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Romanian_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Scandinavian_CP850_CI_AS">
+            <summary>
+            Summary description for SQL_Scandinavian_CP850_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Scandinavian_CP850_CS_AS">
+            <summary>
+            Summary description for SQL_Scandinavian_CP850_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Scandinavian_Pref_CP850_CI_AS">
+            <summary>
+            Summary description for SQL_Scandinavian_Pref_CP850_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Slovak_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Slovak_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Slovak_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Slovak_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Slovenian_CP1250_CI_AS">
+            <summary>
+            Summary description for SQL_Slovenian_CP1250_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Slovenian_CP1250_CS_AS">
+            <summary>
+            Summary description for SQL_Slovenian_CP1250_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_SwedishPhone_Pref_CP1_CI_AS">
+            <summary>
+            Summary description for SQL_SwedishPhone_Pref_CP1_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_SwedishStd_Pref_CP1_CI_AS">
+            <summary>
+            Summary description for SQL_SwedishStd_Pref_CP1_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Ukrainian_CP1251_CI_AS">
+            <summary>
+            Summary description for SQL_Ukrainian_CP1251_CI_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collation.CollationData.SQL_Ukrainian_CP1251_CS_AS">
+            <summary>
+            Summary description for SQL_Ukrainian_CP1251_CS_AS.
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collations">
+            <summary>Internal class for the improved collation comparisons.</summary>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collations.GetCollationInfo(System.String)">
+            <summary>
+            Takes the name of a collation as an argument and returns a Collations.Collation class
+            with the information necessary to do a comparison.
+            </summary>
+            <param name="collation">Name of the collation</param>
+            <returns>Collation information for use with CompareInfo.Compare()</returns>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collations.CreateLookup">
+            <summary>
+            Constructor that adds the collation information as cached from information
+            retreived from SQL Server 2000
+            </summary>
+        </member>
+        <member name="T:RedGate.SQLDataCompare.Engine.Collations.Collation">
+            <summary>
+            Container for the improved collation information
+            </summary>
+        </member>
+        <member name="M:RedGate.SQLDataCompare.Engine.Collations.Collation.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor, this will do the appropriate bit shifting for the SQL Server
+            ComparisonStyle to CLR CompareOptions
+            </summary>
+            <param name="LCID">Locale ID</param>
+            <param name="compareOptions">CompareOptions as returned from SQL Server</param>
+        </member>
+        <member name="P:RedGate.SQLDataCompare.Engine.Collations.Collation.LCID">
+            <summary>
+            The Locale ID for the comparison
+            </summary>
+        </member>
+        <member name="P:RedGate.SQLDataCompare.Engine.Collations.Collation.CompareOptions">
+            <summary>
+            The CompareOptions needed for the CompareInfo.Compare call
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IColumn.ColNum">
+            <summary>
+            The HoBT column ID. Not necessarily, but mostly, equal to the table column ID.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IColumn.Xtype">
+            <summary>
+            xtype (i.e. SQL type, not user type) for the column
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IColumn.Name">
+            <summary>
+            The column name. This may not be populated in all cases if the information
+            is not easily available. 
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.LiveCommand">
+            <summary>
+                Represents an SQL statement that is executed while connected to a data source,
+                and is implemented by .NET Framework data providers that access relational
+                databases.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveCommand.#ctor(RedGate.BackupReader.LiveConnection)">
+            <summary>
+            Creates an instance of the BackupCommand class, using the specified connection.
+            </summary>
+            <param name="connection">BackupConnection to associate this BackupCommand with</param>
+        </member>
+        <member name="T:RedGate.BackupReader.LiveConnection">
+            <summary>
+            An implementation of IBackupConnection for treating a live DB as a page reader
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.#ctor(System.Data.SqlClient.SqlConnection,RedGate.Shared.SQL.Server.SQLVersion)">
+            <summary>
+            Creates a new LiveConnection object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.#ctor(System.Data.SqlClient.SqlConnection,RedGate.Shared.SQL.Server.SQLVersion,System.Boolean)">
+            <summary>
+            Creates a new LiveConnection object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.#ctor(System.Reflection.Assembly,System.Data.SqlClient.SqlConnection,RedGate.Shared.SQL.Server.SQLVersion,System.Boolean)">
+            <summary>
+            Creates a new LiveConnection object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.PopulateAdditionalSystemTables(System.Collections.Generic.List{RedGate.Shared.SQL.BackupReaderInterfaces.ITableName})">
+            <summary>
+            Populates one or more system tables in addition to those already populated
+            
+            The LiveConnection must be in the Open state before calling this method. Progress may be given
+            by setting the Status event handler in a similar way to the Open call. Progress will range from
+            0% to 100% over the course of all the tables to be populated.
+            </summary>
+            <param name="tables">A list of the schema-qualified names of the tables to populate</param>
+            <exception cref="T:System.ArgumentException">Throws ArgumentException if a specified table has
+            already been populated.</exception>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.PopulateAdditionalSystemTables(RedGate.Shared.SQL.BackupReaderInterfaces.ITableName[])">
+            <summary>
+            Populates one or more system tables in addition to those already populated
+            
+            The LiveConnection must be in the Open state before calling this method. Progress may be given
+            by setting the Status event handler in a similar way to the Open call. Progress will range from
+            0% to 100% over the course of all the tables to be populated.
+            </summary>
+            <param name="tables">The schema-qualified name(s) of the tables to populate</param>
+            <exception cref="T:System.ArgumentException">Throws ArgumentException if a specified table has
+            already been populated.</exception>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.IsPasswordRequired">
+            <summary>
+            Always returns false since the LiveConnection doesn't handle the underlying 
+            connection object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.GetBackupSets">
+            <summary>
+            Not valid for this object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.UseBackupSet(RedGate.Shared.SQL.BackupReaderInterfaces.IBackupSet)">
+            <summary>
+            Not valid for this object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.CreateCommand">
+            <summary>
+            Creates a command object for executing against the main data source
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.CreateSysTableCommand">
+            <summary>
+            Creates a command on to the queryable system table store
+            </summary>
+            <returns>An instance of IDbCommand connected to the system table store</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.OpenForMetaInformation">
+            <summary>
+            Opens the LiveConnection to access database information from the source specified in the ConnectionString. Cheap but not
+            suitable to retrieve actual data / structure from the database - only meta information.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.Open">
+            <summary>
+            Opens the LiveConnection to the source specified in the ConnectionString. Expensive.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.Close">
+            <summary>
+            Closes the LiveConnection. 
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.Dispose">
+            <summary>
+            Not implemented yet
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.CancelOperation">
+            <summary>
+            Cancels the operation.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.BeginTransaction">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LiveConnection.ChangeDatabase(System.String)">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.ConnectionString">
+            <summary>
+            Gets the string used to open a database.
+            </summary>
+            
+            <returns>
+            A string containing connection settings.
+            </returns>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.CurrentBackupSet">
+            <summary>
+            Not valid for this object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.SQLServerInternalVersionNumber">
+            <summary>
+            Not valid for this object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.Version">
+            <summary>
+            Returns 7, 8, 9 - SQL7, SQL2000, SQL2005
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.CompatibilityVersion">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.DatabaseGuid">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.State">
+            <summary>
+            Open or Closed
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.Status">
+            <summary>
+            An event handler for providing progress feedback.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.BackupTemporaryDirectory">
+            <summary>
+            Get the temporary backup data store directory or null if it doesn't exist
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.ConnectionTimeout">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.LiveConnection.Database">
+            <summary>
+            Not implemented in this implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockMQSS">
+            <summary>
+            Extra stuff to form a DBLK VOLB (together with the common block header).
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.LogRescue.MTF.FileStreamValue">
+            <summary>
+            The FileStreamValue object is the object that is
+            stored in the Database's Page representing a FileStream.
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.LogRescue.MTF.FileStreamValue.m_ColType">
+            <summary>
+            The column Type of a FileStream is always 3
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.LogRescue.MTF.FileStreamValue.m_FileID">
+            <summary>
+            FileID - don't know why it is useful.
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.LogRescue.MTF.FileStreamValue.m_CreateLSN">
+            <summary>
+            The LogSequence Number that links the FileStreamValue with its
+            data
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LogRescue.MTF.FileStreamValue.#ctor(System.Byte[],System.Int32)">
+            <summary>
+            Construct a new FileStreamValue object
+            </summary>
+            <param name="bytes"></param>
+            <param name="offset"></param>
+        </member>
+        <member name="T:RedGate.BackupReader.LogRescue.MTF.FileStreamValue.FileStreamLSN">
+            <summary>
+            The FileStreamLSN represents a Log Stream Number that
+            is used by SQL Server to attach a filestream blob held in the 
+            Filestream DBlock (PH6S) to the cell in the database it occupies.
+            An LSN consists of string containing three numbers each of
+            which is parsed to form the following structure.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.LogRescue.MTF.SQLFileStream">
+            <summary>
+            This class represents the parsed DBlock PH6S. The dblock is
+            read but the actual file contents are not extracted until 
+            requested. A filestream block contains multiple sub blocks 
+            representing files, directories and padding/termination.
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.m_MTFFile">
+            <summary>
+            MTF File
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.m_FSLookup">
+            <summary>
+            A dictionary linking the LSN (File blob identifier) with the 
+            list of Contents objects that record where in the MTF file the 
+            actual data is stored.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.#ctor(System.IO.Stream)">
+            <summary>
+            Create a new SQLFileStream object - only 1 object is created irrespective
+            of how many PH6S blocks exist in the file although I have only seen a single
+            PH6S block there doesn't appear to be any reason why more couldn't exist.
+            </summary>
+            <param name="MTFFile"></param>
+        </member>
+        <member name="M:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.ReadFileStreamData(System.Int64)">
+            <summary>
+            Read the PH6S Block and parse its contents identifying all
+            the sub blocks it contains.
+            </summary>
+            <param name="initialOffset">Where the PH6S Block is in the file</param>
+            <returns>How long the PH6S block was</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.HasFile(RedGate.BackupReader.LogRescue.MTF.FileStreamValue)">
+            <summary>
+            Determines whether this stream contains the file desired
+            </summary>
+            <param name="fsv">FileStreamValue from the Database cell</param>
+            <returns>True if the file exists, false otherwise</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.GetBytes(RedGate.BackupReader.LogRescue.MTF.FileStreamValue,System.Int64,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Read a specified number of bytes from the filestream
+            </summary>
+            <param name="fsv">FileStream Lookup</param>
+            <param name="dataIndex">Index into the data to read from</param>
+            <param name="buffer">buffer to write into - if null the function returns the length of the field</param>
+            <param name="bufferIndex">Index in the buffer to write to</param>
+            <param name="length">Length of the data to read</param>
+            <returns>The number of bytes read</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.Contents(RedGate.BackupReader.LogRescue.MTF.FileStreamValue)">
+            <summary>
+            Retrieve the byte contents of File represented by the FileStreamValue object
+            </summary>
+            <param name="fsv">FileStreamValue from the Database cell</param>
+            <returns>The contents of the file that it points to</returns>
+        </member>
+        <member name="T:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.FileStreamContents">
+            <summary>
+            A file contains 1 or more FileStreamContents objects
+            that store where in the MTF file each piece of the
+            file's data is stored.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.LogRescue.MTF.SQLFileStream.FileStreamBlockType">
+            <summary>
+            The different sub blocks in a FileStream
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MergedEnumerator`1.AddItemToList(`0,System.Int32)">
+            <summary>
+            Adds the item to the list of current items
+            </summary>
+            <param name="newItem">The item to add</param>
+            <param name="index">The index of the iterator the item was taken from</param>
+        </member>
+        <member name="T:RedGate.BackupReader.MergedStream">
+            <summary>
+            An implementation of Stream that merges one or more base streams into a single stream.
+            
+            This implementation is not seekable or writable, since that would impose more requirements
+            on the base streams. Rather, it permits linear reads from the start (determined by the initial
+            positions of the base streams).
+            
+            When one base stream reaches EOF, the next stream in the enumeration is used, and so on, until
+            no more streams are available. At this point, the MergedStream reaches EOF.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MergedStream.#ctor(System.Collections.Generic.IEnumerable{System.IO.Stream},System.Int32)">
+            <summary>
+            Constructs a MergedStream from an enumeration of base streams. The initial position
+            is for convenience - it sets the initial value of Position before any data is read
+            from the MergedStream.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MergedStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads bytes from the stream into the buffer provided.
+            </summary>
+            <param name="buffer">Destination buffer</param>
+            <param name="offset">Offset into the destination buffer at which to start writing</param>
+            <param name="count">Maximum number of bytes to write into the buffer</param>
+            <returns>Actual number of bytes read, which is either equal to or less than the requested number of bytes</returns>
+        </member>
+        <member name="P:RedGate.BackupReader.MergedStream.Position">
+            <summary>
+            Gets the current position into the stream
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MergedStream.CanRead">
+            <summary>
+            Returns true
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Blob.BlobPage.#ctor(System.Byte[])">
+            <summary>
+            Constructs a BlobPage object from the given buffer and page provider. The buffer is persisted 
+            internally, and caller allocated. Care should be taken to avoid invalidating the buffer by
+            re-using it for other pages if this object is still required.
+            
+            If the buffer is to be re-used, call ParseAllFragments() first to remove the dependency on the
+            buffer.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Blob.BlobPage.GetFragment(System.Int32)">
+            <summary>
+            Gets the BLOB Fragment at the specified slot ID
+            </summary>
+            <param name="slotID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Blob.BlobPage.GetFragments">
+            <summary>
+            Returns an enumeration of all the BLOB fragments on this page
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Blob.BlobPage.ParseAllFragments">
+            <summary>
+            Forces all fragments to be parsed, releasing the buffer passed in to the page
+            constructor for re-use.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.MTFReader.Blob.FileStreamBlob">
+            <summary>
+            A blob that is a filestream - thin wrapper around
+            call to the FileStream at MTF File Level.
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.Value.m_VariableWidth">
+            <summary>
+            Whether this value is a variable width decimal/numeric column or not.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.Value.MBStringValue">
+            <summary>
+            Gets the unicode string value, e.g. from an nchar field
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.Value.ASCIIStringValue">
+            <summary>
+            Gets a single-byte encoded string value, e.g. from a char or varchar field
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Katmai2K5IndexProviderBase.GetKeys(System.UInt32,System.UInt16)">
+            <summary>
+            Gets an array of index key columns for the specified index. This only populates
+            a MinimalIndexKeyCol, which doesn't contain sufficient information for actually populating
+            the index, but is sufficient to determine if the index matches the requested ORDER BY
+            clause from the user.
+            
+            It also does NOT return any "included" columns that may be present on a non-clustered
+            index, as these shouldn't be considered when selecting an index to use.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Katmai2K5IndexProviderBase.GetIndexIDs(System.UInt32)">
+            <summary>
+            Gets a list of valid index IDs associated with the specified object ID
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Katmai2K5IndexProviderBase.PopulateColumnIDs(System.UInt32,RedGate.BackupReader.IndexKeyColumn[])">
+            <summary>
+            Populates the column IDs in a set of key columns from the details for the given object.
+            This is handy when the set of columns originally came from a user-entered SQL query, where
+            we obviously only know the names, rather than the column IDs.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Katmai2K5IndexProviderBase.GetRowsetIDsForIndex(System.UInt32,System.UInt16)">
+            <summary>
+            Gets a map from partition ID to rowset ID for the given object and index. Partition
+            numbering begins at one, and goes upwards. There are a maximum of 1000 partitions
+            for a given object/index combination.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Katmai2K5IndexProviderBase.GetHasClusteredIndex(System.UInt32)">
+            <summary>
+            Gets whether a certain object has a clustered index on it
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.HobtSchema.ColumnCount">
+            <summary>
+            Returns the number of columns in the Hobt. This MUST be greater than the largest
+            column number in the Fixed or Variable columns collections. Dependents MAY use this
+            property as a means of allocating column arrays of appropriate size.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.HobtSchema.ValueCount">
+            <summary>
+            Size that the Value[] in individual rows should be allocated as, taking
+            into account any uniquifier present.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.ISysTableStore">
+            <summary>
+            Interface representing a system table store backed by SQLite
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.ISysTableStore.CreateCommand">
+            <summary>
+            Gets a command to query the system table store
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.ISysTableStore.Initialise(RedGate.BackupReader.IPageProvider,RedGate.BackupReader.IProgressTracker)">
+            <summary>
+            Initialise the system table store
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.ISysTableStore.InitialiseMetaInformation(RedGate.BackupReader.IPageProvider,RedGate.BackupReader.IProgressTracker)">
+            <summary>
+            Initialise the system table store only for meta information
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.ISysTableStore.PopulateTable(RedGate.Shared.SQL.BackupReaderInterfaces.ITableName,RedGate.BackupReader.IPageProvider,RedGate.BackupReader.MTFReader.ISchemaProvider,RedGate.BackupReader.IProgressTracker)">
+            <summary>
+            Populates an additional table in the system table store. Must be called after the system table store has been initialised.
+            </summary>
+            <param name="name">Qualified name of the table</param>
+            <param name="pageProvider">Page provider</param>
+            <param name="schemaProvider">A schema provider</param>
+            <param name="tracker">Progress tracker</param>
+        </member>
+        <member name="M:RedGate.BackupReader.ISysTableStore.CreateEmptyTable(RedGate.Shared.SQL.BackupReaderInterfaces.ITableName,RedGate.BackupReader.MTFReader.TableSchema)">
+            <summary>
+            Creates an empty table with the specified schema in the system table store. Must be called after the system table store has been initialised.
+            </summary>
+            <param name="name">Qualified name of the table</param>
+            <param name="schema">The schema for the created table</param>
+        </member>
+        <member name="P:RedGate.BackupReader.ISysTableStore.Initialised">
+            <summary>
+            Gets whether the system table store has been initialised
+            and is ready for use.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.ISysTableStore.Bootstrapped">
+            <summary>
+            Gets whether the system table store has been bootstrapped
+            sufficiently for internal use. This is a less strict requirement
+            than Initialised, but means that it contains sufficient information
+            to retrieve schema information for other system tables and the
+            like.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.ISysTableStore.DataStoreDirectory">
+            <summary>
+            Get the directory into which the datastore writes - or null if the datastore does not write to 
+            a directory
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.SysTableStoreBase.Open">
+            <summary>
+            Create and open the data store connection to the system table store database
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.SysTableStoreBase.Finalize">
+            <summary>
+            Destructor. Cleans up the DB connection, 
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.SysTableStoreBase.Close">
+            <summary>
+            Cleans up the DB connection and associated file on disk
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.Katmai.SysTableStore.m_MaxIndexID">
+            <summary>
+            A quick counter to ensure we're creating unique index names
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Katmai.SysTableStore.PopulateDBPropertiesTable(RedGate.BackupReader.IPageProvider)">
+            <summary>
+            Populates the special "database properties" table used by SQL Compare's Read from Backups engine
+            </summary>
+            <param name="pageProvider"></param>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.SQL2005.IndexProvider.m_indexProvider2005">
+             Some notes...
+             
+             A lot of this code was derived empirically, as best I could. Therefore, there could well be
+             bugs in it if there are combinations I've not thought of or managed to reproduce. However, it
+             seems to work in the vast majority of circumstances at least!
+             
+             The SQL Server 2005 base tables have very unhelpful column names a lot of the time, so first
+             of all, here's an explanation of my understanding of what they correspond to:
+             
+             sysiscols
+            	idmajor - the object ID
+            	idminor - the index ID
+            	subid - mapping field to sysrowsetcolumns for the index in question
+              intprop - mapping to rowsetcolid in sysrowsetcolumns FOR THE BASE TABLE
+            	tinyprop1 - 0 means an included column or one only in the partition function. Otherwise, the 
+            		index key ordering
+            	tinyprop2 - This seems to be a status bit indicating that the column is the partitioning column
+             
+             Values of syshobtcolumns.ordkey are assigned as follows in a clustered index:
+              - Defined key columns, in order
+              - Partition function column, unless already included
+              - Uniquifier, if present
+             
+             For non-clustered indexes, it is:
+              - Defined key columns, in order
+              - Columns from the clustered index in ordkey order, where not already included
+             
+             Ordkey is one based; an ordkey value of zero means that the column does not form part of the key,
+             and applies only to clustered indexes and unique non-clustered indexes.
+             
+             Working backwards from syshobtcolumns, hobtcolumnid maps to sysrowsetcolumns.hobtcolumnid. From there,
+             sysrowsetcolumns.rowsetcolumnid maps to sysiscols.subid.
+             
+             Once in sysiscols, status, tinyprop1 and tinyprop2 can be retrieved to give information such as
+             the descending-ness of the column, and whether the column is actually part of the key, or merely
+             the partition function. Further, if an entry isn't in sysiscols, then it isn't part of the "real"
+             set of keys. This also applies if sysiscols.tinyprop1 is zero.
+             
+             To map the columns back on to the base table, there are two sets of columns in question for NCIs:
+              - those columns that are part of the PF or index key, use sysiscols.intprop
+              - those questions that aren't, but are part of the CI key, work in ordkey order on to the ordkeys of
+            		the CI, remembering to discard any columns that were already specified in the NCI key
+             
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.SQL2005.IndexProvider.GetRowsetColumnsMap(System.UInt64)">
+            <summary>
+            Gets a map from rowset column IDs to hobt column IDs for the specified rowset.
+            A bijective map is returned, so lookups can be made both ways.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.IPageProvider">
+            <summary>
+            Interface for a provider of raw page data
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.IPageProvider.GetPage(RedGate.LogRescue.Engine.DBInternals.PageAndFileID,System.Byte[])">
+            <summary>
+            Reads a specified page into the buffer supplied
+            </summary>
+            <param name="pfid">Page and File ID of the page to retrieve</param>
+            <param name="targetArray">0x2000 byte buffer to read the page into</param>
+            <returns>Success status</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.LiveDB.LiveSysTableStore.PopulateDBPropertiesTable(RedGate.BackupReader.IPageProvider)">
+            <summary>
+            Populates the special "database properties" table used by SQL Compare's Read from Backups engine
+            </summary>
+            <param name="pageProvider"></param>
+        </member>
+        <member name="T:RedGate.BackupReader.MTFReader.SQL2000.CKeyInfo">
+            <summary>
+            Equivalent to SQL Server CKeyInfo struct. Not all fields are populated at the moment - 
+            if they aren't required, I've omitted them to speed things up a bit.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.IHobtColumn.GetOffset(System.Boolean)">
+            <summary>
+            The xoffset value for the HoBT row for a given index level (leaf or intermediate)
+            </summary>
+            <param name="leaf"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.Xoffset">
+            <summary>
+            The xoffset value into the HoBT row
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.TableColumn">
+            <summary>
+            TableColumn that this hobt column is connected with. May not be set immediately, so
+            could be null.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.Length">
+            <summary>
+            Length (in bytes) of the data for fixed length columns. Not used for variable
+            length columns.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.Precision">
+            <summary>
+            The precision value for numeric or decimal types
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.Scale">
+            <summary>
+            The scale value for numeric or decimal types
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.BitPos">
+            <summary>
+            For columns of type bit, this field indicates the bit within the byte 
+            (where byte is determined by xoffset) that stores the value of the column.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.NullBitPosition">
+            <summary>
+            The null bitmap position for this column
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.CollationID">
+            <summary>
+            The Collation ID for text-based columns
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.IHobtColumn.RowCompressed">
+            <summary>
+            Whether the columns data for the current row is RowCompressed
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.BackupBlock">
+            <summary>
+            This is used for an mstl group.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.DBInternals.BackupConstituentFiles">
+            <summary>
+            This class is used for storing information about the files that are stored in the 
+            full database backup.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.DBInternals.BackupConstituentFiles.#ctor">
+            <summary>
+            Constructs a ConstituentFiles class to hold fileinfo structures.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.DBInternals.BackupConstituentFiles.Add(RedGate.LogRescue.Engine.MTF.SQLFileInfo)">
+            <summary>
+            Adds a fileinfo (note that order matters). This means boxing :( Well, should not happen
+            often.
+            </summary>
+            <param name="fileInfo">The fileinfo we should add.</param>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.DBInternals.BackupConstituentFiles.Count">
+            <summary>
+            The number of fileinfo structures we store.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.DBInternals.BackupConstituentFiles.Item(System.Int32)">
+            <summary>
+            Access to the file info structures.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.BackupProgressTracker">
+            <summary>
+            This class is used to keep track of the progress of the backup file additions.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.BackupProgressTracker.#ctor(System.UInt64,System.Resources.ResourceManager)">
+            <summary>
+            Creates a tracker.
+            </summary>
+            <param name="totalSize">The total size of the files that will be attached.</param>
+            <param name="rm">The resource manager for internationalization.</param>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.BackupProgressTracker.CurrentPosition">
+            <summary>
+            The current position in the backup processing.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.BackupProgressTracker.StatusString">
+            <summary>
+            The status string to be returned.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.BackupProgressTracker.CurrentBackupFile">
+            <summary>
+            The name of the current backup file.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.BackupProgressTracker.Percentage">
+            <summary>
+            A value indicating the percentage of the progress.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.DBInternals.DatabaseInfo">
+            <summary>
+            This struct is used as a mask for the first data base table row entry in the first page
+            of a full database backup. It contains general database specific information.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance">
+            <summary>
+            This represents a single, full database backup 
+            (including some database backup files if the backup is striped).
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.#ctor(RedGate.LogRescue.Engine.MTF.DatabaseBackup)">
+            <summary>
+            Constructs the FullDatabaseBackupInstance object.
+            </summary>
+            <param name="dbBackupInstance">The database backup instance that contains the full 
+            backup.</param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.SetIncrementalBackup(RedGate.LogRescue.Engine.MTF.DatabaseBackup,RedGate.Shared.Utils.ICancellable,System.Boolean@)">
+            <summary>
+            
+            </summary>
+            <param name="incrementalBackup"></param>
+            <param name="cancellable"></param>
+            <param name="cancelled"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.GetPage(RedGate.LogRescue.Engine.DBInternals.PageAndFileID,System.Byte[])">
+            <summary>
+            This method retrieves the phisical page from the relevant file.  This also takes care
+            of torn bits, thus the resulting 0x2000 byte array is ready for use.
+            </summary>
+            <param name="pfid">The page / file ID for the page to retrieve</param>
+            <param name="targetArray">The target byte array where the loaded page should be
+            copied to.</param>
+            <returns>True if the operation was successful, false otherwise.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.LocateFirstIndexIAMPage">
+            <summary>
+            This method locates the first index IAM page in the database file. It does it 
+            by searching throug (yes brute force) the first 80 pages of the database file (this 
+            is the most likely (99.999%) location for the index iam page
+            </summary>
+            <returns>The page id of the first index IAM.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.GetRidOfTornBits(System.Byte[])">
+            <summary>
+            This method expects a byte array containing a full database page (0x2000 bytes).
+            It identifies the thorn bits and replaces them with their original values.
+            Note that at the moment I am NOT checking whether these actually indicate a thorn page.
+            There is no need for this since the primary source for these pages should be a 
+            database backup file.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.Files">
+            <summary>
+            Privides access to information about the files that are included in the 
+            full database backup.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.IsRaided">
+            <summary>
+            Flag to indicate striped raiding
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.IncrementalBackup">
+            <summary>
+            Gives access to the incremental backup. If this is set, and the incremental
+            backup actually belongs to this full backup, then all the page lookups are handled 
+            in a way that reflect the increment.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.DBFullBackup.FullDatabaseBackupInstance.SQLFileStream">
+            <summary>
+             Get the filestream object which can retrieve the data bytes associated with 
+            filestreams.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.IncrementalBackupDCM">
+            <summary>
+            This class includes information that is used for incremental backups. This
+            information includes the pages taht are stored in a single!!! incremental
+            backup part, i.e. in in a single splatter!. However, it has information
+            for all the files in that splatter, there is a DCM (a bitarray for every 
+            extent and a flag that indicates whether the extent is included in the splatter.
+            
+            One DCM stores the information for approx 0.5GB of data extent. That means that
+            one IncrementalBackupDCM is at least 2MB big (255 * 8KB), plus the extent map.
+            
+            That means that the minimum memory footprint of this class for an x GB backup
+            is (x / 2) * 2 * StripeCount = (x * StripeCount) MB. It could be much more
+            if many extents are populated.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.IncrementalBackupDCM.#ctor(RedGate.LogRescue.Engine.MTF.DatabaseBackup)">
+            <summary>
+            Initializes an incremental backup object. The most important task here is to identify the database
+            extents that have been included in this incremental backup.
+            </summary>
+            <param name="backup"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.IncrementalBackupDCM.PopulateDCMs(RedGate.Shared.Utils.ICancellable,System.Boolean@)">
+            <summary>
+            I cannot make modifications to Sheep :(, so this is a hack.
+            
+            Sheep => the old codename for the Common Components project!
+            	-- RMC47 - 2007-06-27
+            </summary>
+            <param name="cancellable"></param>
+            <param name="cancelled"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.IncrementalBackupDCM.GetPage(System.UInt16,System.UInt32,System.Byte[])">
+            <summary>
+            Gets a particular database page from the backup.
+            </summary>
+            <param name="fileID">The file id from which the page to be retrieved.</param>
+            <param name="pageNumber">The page number to retrieve.</param>
+            <param name="targetArray">The target array to populate.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.IncrementalBackupDCM.PopulateDCMs(RedGate.LogRescue.Engine.MTF.DatabaseBackup,System.Boolean@)">
+            <summary>
+            Helper method that populates the diff information, i.e. a bit array that tells me whether a 
+            particular extent is part of this incremental backup. This is done for each encountered
+            file in case the backup was an incremental multifile backup.
+            </summary>
+            <param name="backup">The backup itself, which somewhere contains the database pages.</param>
+            <param name="canceled">If the action was cancelled</param>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.IncrementalBackupDCM.DCM">
+            <summary>
+            Internal class to keep track of what extents I have for the various multifile backups.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.IncrementalBackupDCM.DCM.#ctor(System.UInt16)">
+            <summary>
+            Primary constructor. Just for the sake of completeness I do keep track of the fileid.
+            </summary>
+            <param name="fileID"></param>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.IncrementalBackupDCM.DCM.Item(System.Int32)">
+            <summary>
+            Gives access to a bit, that belongs to the indexth extent in the relevant database file.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber">
+            <summary>
+            This class represent a log sequence number.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.#ctor(System.Byte[]@,System.UInt16)">
+            <summary>
+            Constructor that uses the the raw byte representation of the log sequence number.
+            </summary>
+            <param name="rawLSN">The byte array that contains the raw log sequnece number.</param>
+            <param name="offset">The offset at which the log sequence number starts.</param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.#ctor(System.UInt32,System.UInt32,System.UInt16)">
+            <summary>
+            Constructor that builds a log sequence number from its constitient parts.
+            </summary>
+            <param name="fileSequenceNumber">The file sequnece number.</param>
+            <param name="blockOffset">The block offset.</param>
+            <param name="slotID">The slot identifier.</param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.#ctor(System.String)">
+            <summary>
+            This parses a string of hexadecimal string representation of an lsn.
+            </summary>
+            <param name="lsnString"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.Equals(System.Object)">
+            <summary>
+            Checks if two log sequence numbers are equal.
+            </summary>
+            <param name="obj"></param>
+            <returns>True if they are equal.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.CompareTo(System.Object)">
+            <summary>
+            Compares two log sequence numbers.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.TypedCompareTo(RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber)">
+            <summary>
+            Compares two log sequence numbers.
+            </summary>
+            <param name="lsn">The log sequence number to campere with.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.op_Equality(RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber,RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber)">
+            <summary>
+            The == operator.
+            </summary>
+            <param name="a">LSN a.</param>
+            <param name="b">LSN b.</param>
+            <returns>True if the tow lsns to be comared are the same.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.op_GreaterThan(RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber,RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber)">
+            <summary>
+            The > operator. 
+            </summary>
+            <param name="a">LSN a.</param>
+            <param name="b">LSN b.</param>
+            <returns>True if a>b.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.op_LessThan(RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber,RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber)">
+            <summary>
+            The &lt; operator.
+            </summary>
+            <param name="a">LSN a.</param>
+            <param name="b">LSN b.</param>
+            <returns>True if a&lt;b.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.op_Inequality(RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber,RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber)">
+            <summary>
+            The != operator.
+            </summary>
+            <param name="a">LSN a.</param>
+            <param name="b">LSN b.</param>
+            <returns>True if the tow lsns to be comared are not the same.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.GetHashCode">
+            <summary>
+            Override to get a hashcode from a log sequence number.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.ToString">
+            <summary>
+            Override for the toString method.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.FileSequenceNumber">
+            <summary>
+            The file sequence number part of the log sequence number.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.BlockOffset">
+            <summary>
+            The block offset part of the log sequence number.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.SqlLogDataTypes.LogSequenceNumber.SlotID">
+            <summary>
+            The slot id part of the log sequence number.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.CommonBlockHeader">
+            <summary>
+            This struct is used as the common block header for DBLKs in MTF files.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DatabaseBackup">
+            <summary>
+            A class that is used to store information about a single database backup operation, be it 
+            log or full database backup.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DatabaseBackup.#ctor(RedGate.LogRescue.Engine.MTF.MTFFile,System.Guid)">
+            <summary>
+            Constructs the database backup object.
+            </summary>
+            <param name="mtfFile"></param>
+            <param name="bindingGuid">Guid to refer to the last full backup!</param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DatabaseBackup.AddDBLK(RedGate.LogRescue.Engine.MTF.BackupBlock)">
+            <summary>
+            Adds a dblk to this backup. This is used primarily for log vlf infos.
+            Note that this is sorted!!! by vlf sequence number.
+            </summary>
+            <param name="dblkBlock"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DatabaseBackup.AddRaidDependant(RedGate.LogRescue.Engine.MTF.DatabaseBackup)">
+            <summary>
+            Adds a database backup set to the raid dependancy list.
+            </summary>
+            <param name="dbBackup"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DatabaseBackup.GetRaidDependant(System.Int32)">
+            <summary>
+            Returns a specific raid dependent.
+            </summary>
+            <param name="index">The sequence number of the raid dependent to be returned.</param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DatabaseBackup.HasAllRaidDependants">
+            <summary>
+            This method check if all the raid dependencies are satisfied for a backup file, i.e. we 
+            have a master and all the raid dependants.
+            </summary>
+            <returns>True, if all preconditions are satisfied. False, if one of the raid dependent
+            backup files is missing.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DatabaseBackup.GetTotalLogSize">
+            <summary>
+            Calculates the total size of the contained log files.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.DatabaseBindingID">
+            <summary>
+            The BindingID of this DatabaseBackup. If this is a full backup, this is the
+            ID that matches against the SqlConfigInfo.DifferentialBaseGuid of subsequent
+            differential backups, which is a little confusing.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.SqlConfigInfo">
+            <summary>
+            The sql config structs containing among others the type of this backup.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.PhysicalBackupFile">
+            <summary>
+            The physical backup file.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.SsetOffset">
+            <summary>
+            The point where the SSET starts.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.Item(System.Int32)">
+            <summary>
+            Access to the constituting backup blocks.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.Count">
+            <summary>
+            The number of backup blocks.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.Files">
+            <summary>
+            Returns the wrapper class that allows access to the constituent files.
+            This makes sence primarily in full database backups.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.IsRaided">
+            <summary>
+            Flag to indicate striped raiding
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.RAIDInformation">
+            <summary>
+            Property to get/set raid/striping information for the backupset.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.DatabaseBackup.IncrementalBackupDCM">
+            <summary>
+            Gives access the the incremental backup dcm, that can identify extents included
+            in the incremental backup.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DateTimeHelper">
+            <summary>
+            This is  a helper class that can convert MTF datetime structures to datatime of .NET.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DateTimeHelper.#ctor">
+            <summary>
+            Private constructor which should never be called :)
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.DateTimeHelper.GetDate(System.Byte[],System.Int32)">
+            <summary>
+            A static method that returns a .NET datatime from the binary representation 
+            of a MTF datetime.
+            </summary>
+            <param name="data">The byte array that contains the binary data.</param>
+            <param name="offset">The offset at which de MTF datatime is located.</param>
+            <returns>The value of the MTF datetime.</returns>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockESET">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockMSCI">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockMSDA">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockMSLS">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockMSTL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockSSET">
+            <summary>
+            Extra stuff to form a DBLK SSET (together with the common block header).
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockTAPE">
+            <summary>
+            Extra stuff to form a DBLK TAPE (together with the common block header).
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.DescriptorBlockVOLB">
+            <summary>
+            Extra stuff to form a DBLK VOLB (together with the common block header).
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.LogHeader">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.MTFFile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.IsMTFFile(System.String)">
+            <summary>
+            Verify that this is a MTF file, or at least make a reasonable guess at it
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.#ctor(System.IO.Stream,RedGate.BackupReader.IProgressTracker,System.UInt64@,System.Boolean)">
+            <summary>
+            Stage 1: populate the BackupSetDescriptors structure.
+            </summary>
+            <param name="stream">The MTF stream</param>
+            <param name="tracker">Progress tracker for this operation</param>
+            <param name="onlyReadOneHeader">Stop parsing as soon as one header is read. Used for getting backup set info out of SQB files quickly.</param>
+            <param name="trackerTotal"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandlePH6S">
+            <summary>
+             Handle the PH6S (Filestream) block
+             </summary>  
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleTAPE(RedGate.LogRescue.Engine.MTF.DescriptorBlockTAPE)">
+            <summary>
+            This is the first DBLK in the backup files.
+            </summary>
+            <param name="dblkTape"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleSFMB">
+            <summary>
+            This handles a soft file mark block (I can eazily ingnore these, since
+            they give me no extra information.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleSSET(RedGate.LogRescue.Engine.MTF.DescriptorBlockSSET)">
+            <summary>
+            This is a backup set, indicates a new chunk of backup.
+            The most important information in its header is the guid, since this is the 
+            main chaining info in the case of full database backups.
+            </summary>
+            <param name="dblkSset"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleESET(RedGate.LogRescue.Engine.MTF.DescriptorBlockESET)">
+            <summary>
+            Indicates the end of a backup set.
+            </summary>
+            <param name="dblkEset"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleVOLB(RedGate.LogRescue.Engine.MTF.DescriptorBlockVOLB)">
+            <summary>
+            Volume descriptor, once again, at the moment it has not much valuable information.
+            </summary>
+            <param name="dblkVolb"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleMSCI(RedGate.LogRescue.Engine.MTF.DescriptorBlockMSCI)">
+            <summary>
+            This method parses or at the moment skips through an MSCI (Microsoft
+            SQL Configuration Information) DBLK.
+            </summary>
+            <param name="dblkMsci"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleMSDA(RedGate.LogRescue.Engine.MTF.DescriptorBlockMSDA,RedGate.BackupReader.IProgressTracker)">
+            <summary>
+            This method parses an MSDA (Microsoft
+            SQL Data) DBLK.
+            
+            This contains the full database backups!!
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.HandleMSLS(RedGate.LogRescue.Engine.MTF.DescriptorBlockMSLS)">
+            <summary>
+            This method handles an MSLS (Microsoft SQL Log Sequence Number block.
+            This bloc usually appears at the end of both full and log database backups.
+            The most important part in it is the MQCI stream, that has file infos.
+            THis is needed for full multifile db backups, since it has the order and page number 
+            (sizes) info for the individual backup files.
+            </summary>
+            <param name="dblkMsls">The MSLS DBLK.</param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.LongCeiling4(System.Int64)">
+            <summary>
+            A helper method to calculate 4 ceiling for stream alignment.
+            </summary>
+            <param name="num">Address that needs alignment.</param>
+            <returns>The aligned address.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.Read(System.Int64,System.Byte[],System.Int32)">
+            <summary>
+            A direct file read method. This should be used after the initial bootstrapping process.
+            </summary>
+            <param name="offset">Offset from which to read.</param>
+            <param name="buffer">The buffer into which data should be copied.</param>
+            <param name="length">The number of bytes to be read.</param>
+            <returns>The number of bytes read.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.MTFFile.Read(System.Int64,System.Byte[])">
+            <summary>
+            Reads some bytes from the filestream :)
+            </summary>
+            <param name="offset"></param>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.MTF.MTFFile.LastDatabaseBackup">
+            <summary>
+            The last seen database backup, for when only reading in a single header.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.RAIDInfo">
+            <summary>
+            Summary description for RAIDInfo.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.SQLConfigInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.SQLFileInfo">
+            <summary>
+            This is used to handle the fileinfo part in MQCI streams.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.SQLHeader">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.TapeAddress">
+            <summary>
+            A lightweight struct to represent a tape address, a common addressing structure for 
+            non-fixed length information in the MTF files.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.MTF.TapeAddress.#ctor(System.UInt16,System.UInt16)">
+            <summary>
+            Private constructor :) Instantiation is through direct mapping!
+            </summary>
+            <param name="size">Size</param>
+            <param name="offset">Offset</param>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.DBInternals.PageAndFileID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.DBInternals.PageHeader">
+            <summary>
+            This struct contains the structure into which every database page start can be casted.
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.MTF.StreamHeader">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID">
+            <summary>
+            A struct to represent transaction identifiers.
+            </summary>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.#ctor(System.Byte[],System.UInt16)">
+            <summary>
+            The general constructor.
+            </summary>
+            <param name="rawTID">The binary data the contains the transaction id.</param>
+            <param name="offset">The offset at which the transaction id is located.</param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.#ctor(System.UInt16,System.UInt32)">
+            <summary>
+            Constructor that takes the parts in the form of values.
+            </summary>
+            <param name="part1"></param>
+            <param name="part2"></param>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.Equals(System.Object)">
+            <summary>
+            Overriding the equation method.
+            </summary>
+            <param name="obj"></param>
+            <returns>True, if the two transaction ids are equal.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.CompareTo(System.Object)">
+            <summary>
+            Overriding the comparison operator.
+            </summary>
+            <param name="obj"></param>
+            <returns>The result of the comparison.</returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.op_Equality(RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID,RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID)">
+            <summary>
+            The == operator.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.op_Inequality(RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID,RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID)">
+            <summary>
+            The != operator.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.GetHashCode">
+            <summary>
+            Overriding the hashcode method.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.ToString">
+            <summary>
+            Overriding the tostring method.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.Part1">
+            <summary>
+            The first part of the transaction id.
+            </summary>
+        </member>
+        <member name="P:RedGate.LogRescue.Engine.SqlLogDataTypes.TransactionID.Part2">
+            <summary>
+            The second part of the transaction id.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.RowProviderBase.GetHobtRow(RedGate.LogRescue.Engine.DBInternals.RowID,RedGate.BackupReader.MTFReader.HobtSchema,System.Collections.Generic.IEnumerable{RedGate.BackupReader.IHobtColumn})">
+            <summary>
+            Gets an individual HobtRow from the page provider by RowID. This isn't an especially
+            efficient way of getting rows, but is useful in situations where completely random
+            access by RID is needed, such as with Forwarding Records on heap tables.
+            </summary>
+            <param name="rowID"></param>
+            <param name="schema"></param>
+            <param name="columns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Index.#ctor(RedGate.BackupReader.MTFReader.HobtPage[],RedGate.BackupReader.MTFReader.TableSchema)">
+            <summary>
+            Constructs an index from an array of partitions. Shouldn't be called directly, but
+            rather from an IIndexProvider.
+            </summary>
+            <param name="tableSchema">Schema of the underlying *table* on which this index is based</param>
+            <param name="partitionRoots"></param>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.Index.GetRows(System.Collections.Generic.IEnumerable{System.String},RedGate.BackupReader.IPageProvider,RedGate.BackupReader.MTFReader.RowProviderBase)">
+            <summary>
+            Gets rows in index order 
+            </summary>
+            <param name="columns"></param>
+            <param name="pageProvider">IPageProvider for retrieving the data pages</param>
+            <param name="rowProvider">IRowProvider for retrieving individual rows by RowID</param>
+            <returns></returns>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.ClusteredIndex.m_KeyColumns">
+            <summary>
+            A list of the HobtColumnIDs of the key columns for this index
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.ClusteredIndex.GetFirstRow(RedGate.BackupReader.MTFReader.HobtRow[])">
+            <summary>
+            Returns the index into the array of the row which is the "smallest" row
+            in the set, or -1 if all rows are null.
+            </summary>
+            <param name="rows"></param>
+            <returns></returns>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.IndexKey.m_Values">
+            <summary>
+            Mapping from *base* column IDs to values
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.IndexKey.m_ColumnMapping">
+            <summary>
+            Mapping from key column IDs to base column IDs
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.IndexKey.m_DescendingKeys">
+            <summary>
+            Map of which keys are descending. TODO: Can we be more efficient (performance and memory) here?
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.DataPage.#ctor(System.Byte[],RedGate.BackupReader.MTFReader.HobtSchema,RedGate.BackupReader.IPageProvider)">
+            <summary>
+            Creates a DataPage based on the provided schema.
+            </summary>
+            <param name="bytes">0x2000 data buffer of that page</param>
+            <param name="schema">Schema of the object represented on that page</param>
+            <param name="pageProvider">Page Provider</param>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.DataPage.#ctor(System.Byte[],RedGate.BackupReader.MTFReader.HobtSchema,System.Collections.Generic.IEnumerable{RedGate.BackupReader.IHobtColumn},RedGate.BackupReader.IPageProvider)">
+            <summary>
+            Creates a DataPage based on the provided schema, parsing out only the 
+            specified columns.
+            
+            Note that the buffer is CALLER allocated - it's stored internally for the lifetime
+            of this object, so care should be taken not to invalidate it if the page is to hang
+            around.
+            </summary>
+            <param name="bytes">0x2000 data buffer of that page</param>
+            <param name="schema">Schema of the object represented on that page</param>
+            <param name="columns">Columns to retrieve, or null for all columns</param>
+            <param name="pageProvider">Page Provider</param>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.DataPage.GetRows">
+            <summary>
+            Gets an enumeration of the rows stored on this page
+            </summary>
+            <returns>Enumeration of the HobtRows stored on this page</returns>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.DataPage.IsDataPage">
+            <summary>
+            Gets whether this page is actually a DataPage, and thus whether
+            the rows have been parsed.
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.IAMPage.m_Bytes">
+            <summary>
+            Unusually for a page, we actually hold on to the original
+            data buffer here. It's a much more compact representation
+            of the pages that are allocated than keeping a collection
+            of PageAndFileIDs, and that way the get operation can be
+            pipelined.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.IAMPage.NextPage">
+            <summary>
+            Gets the next IAMPage associated with this object.
+            NULL_PAGEANDFILE_ID if there is no next page.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.IndexPage.AddIndexFieldsToSchema(RedGate.BackupReader.MTFReader.IndexSchema)">
+            <summary>
+            Adds the index-specific fields to the schema, which for a clustered index
+            (which it must be - or else the NonClusteredIndexPage implementation should be happening)
+            just means a down page pointer.
+            </summary>
+            <param name="schema"></param>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.IndexPage.GetClusteredLeafPages">
+            <summary>
+            For a clustered index, gets an enumeration of the leaf-level data pages from the
+            tree rooted at this page. Makes no sense for non-clustered indexes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.IndexPage.FindIndexKey(RedGate.BackupReader.MTFReader.IndexKey,RedGate.BackupReader.MTFReader.HobtSchema,RedGate.BackupReader.MTFReader.TableSchema,RedGate.BackupReader.MTFReader.IndexPageCache)">
+            <summary>
+            Attempts to locate the HobtRow corresponding to the specified index key. Only
+            works for a clustered index, not non-clustered. This makes life much easier, because
+            it means we don't need to consider the possibility that the index won't be aligned
+            with the data pages for partitioned tables, since the clustered index must be
+            aligned with the data pages (almost by definition).
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.IndexPage.GetIndexKey(System.Int32)">
+            <summary>
+            Gets an index key for the specified row number, including keys beyond just the
+            base keys.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.HobtRow.#ctor(RedGate.LogRescue.Engine.DBInternals.RowID,RedGate.BackupReader.MTFReader.PageCompressionInfo,RedGate.BackupReader.MTFReader.HobtSchema,System.Byte[],System.Int32,RedGate.BackupReader.IPageProvider)">
+            <summary>
+            Constructs and parses a HobtRow. If the row is a ghost (GHOST_INDEX_RECORD or 
+            GHOST_DATA_RECORD), then it is not parsed - the object returned will have its
+            Ghost property set to true, and Values will not be popoulated.
+            </summary>
+            <param name="rid">RowID of this row</param>
+            <param name="pageCompressionInfo">Details about pageCompression of the records - will always be null pre Sql Server 2008</param>
+            <param name="schema">Schema for the HoBT this row is allocated to</param>
+            <param name="bytes">0x2000 byte buffer of page data</param>
+            <param name="offset">Offset into the buffer at which this row starts</param>
+            <param name="pageProvider">An IPageProvider for getting BLOB pages as required</param>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.IndexSchema.#ctor(RedGate.BackupReader.MTFReader.AllocUnitID,System.Boolean,RedGate.BackupReader.IHobtColumn[],RedGate.BackupReader.IHobtColumn[],System.Int32)">
+            <summary>
+            Cloning constructor, and used where the individual columns must be fiddled
+            (such as in IndexPage.AddFieldsToIndexSchema())
+            </summary>
+            <param name="auID"></param>
+            <param name="unique"></param>
+            <param name="fixedColumns"></param>
+            <param name="variableColumns"></param>
+            <param name="downPagePointerColumnNumber"></param>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.IndexSchema.ColumnMapping">
+            <summary>
+            Mapping from index column number to base column number. If no base table
+            column is present for the index column, then -1 is present.
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.NonClusteredIndexPage.m_BasedOnHeap">
+            <summary>
+            Whether this index is based on a heap table rather than a clustered
+            index. This affects whether we have the extra fixed RID column in the rows which
+            we need for GetHeapRIDs().
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.NonClusteredIndexPage.GetClusteredIndexKeys(RedGate.BackupReader.MTFReader.IndexSchema)">
+            <summary>
+            For a non-clustered index, returns an enumeration of all the leaf-level clustered
+            index keys in this branch of the tree.
+            
+            Should not be used on a Clustered index (i.e. Cluster == true), as it makes no sense.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.NonClusteredIndexPage.GetNextLevelPages">
+            <summary>
+            Gets the set of the next level of index pages in the B-Tree. Only valid when
+            Level > 0. 
+            
+            Note that a very similar function exists in the parent IndexPage
+            class, but it's repeated here to load NonClusteredIndexPages instead of plain
+            IndexPages.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.NonClusteredIndexPage.GetLeafRows">
+            <summary>
+            Returns the leaf non-clustered index rows from the tree rooted at this page
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.NonClusteredIndexPage.RIDColNum">
+            <summary>
+            Gets the column number of the RID column, if there is one
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.NonClusteredIndexPage.LeafSchema">
+            <summary>
+            Gets the leaf schema of this index page
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.SQL2000.HobtSchema.FixedColumns">
+            <summary>
+            Collection of fixed width columns. Not in any particular order.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.SQL2000.HobtSchema.VariableColumns">
+            <summary>
+            Collection of variable width columns. Not in any particular order.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.SQL2000.IndexProvider.GetIndexIDs(System.UInt32)">
+            <summary>
+            Gets the valid index IDs for the specified object ID, including
+            the clustered index, if one exists, but not a heap table entry (indid 0).
+            </summary>
+            <param name="objectID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.SQL2000.SysTableStore.PopulateDBPropertiesTable(RedGate.BackupReader.IPageProvider)">
+            <summary>
+            Populates the special "database properties" table used by SQL Compare's Read from Backups engine
+            </summary>
+            <param name="pageProvider"></param>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.SQL2000.SysTableStore.m_MaxIndexID">
+            <summary>
+            A quick counter to ensure we're creating unique index names
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.IndexKeyCol.BaseColNum">
+            <summary>
+            The base rowset Column ID
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.RowProvider.#ctor(RedGate.BackupReader.IPageProvider,System.Boolean)">
+            <summary>
+            Creates an instance of a RowProvider using the specified page provider.
+            </summary>
+            <param name="pageProvider">The page provider implementation to use</param>
+            <param name="careAboutAllocation">Whether to care about whther the allocation 
+            unit ID matches on page headers. This should be true for SQL 2005 and Katmai,
+            but false for SQL 2000.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.SQL2005.SysTableStore.PopulateDBPropertiesTable(RedGate.BackupReader.IPageProvider)">
+            <summary>
+            Populates the special "database properties" table used by SQL Compare's Read from Backups engine
+            </summary>
+            <param name="pageProvider"></param>
+        </member>
+        <member name="F:RedGate.BackupReader.MTFReader.SQL2005.SysTableStore.m_MaxIndexID">
+            <summary>
+            A quick counter to ensure we're creating unique index names
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.MTFReader.TableSchema.#ctor(RedGate.BackupReader.MTFReader.HobtSchema)">
+            <summary>
+            Instantiates a TableSchema based purely on a single HobtSchema, with a
+            direct mapping of columns from the HoBT to the table. Mainly of use
+            when dealing with system tables where this can be guaranteed.
+            </summary>
+            <param name="hobt"></param>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.TableSchema.HobtColumnMap">
+            <summary>
+            Map from a HobtSchema to a map of hobtColumnID to tableColumnID.
+            Used for merging HobtRows into TableRows.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.MTFReader.TableSchema.HobtSchemas">
+            <summary>
+            Gets the collection of HobtSchemas that back this TableSchema
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SharedFunctions.CheckAssemblyRights(System.Reflection.Assembly)">
+            <summary>
+            Checks an assembly's rights to use SQL Backup Reader. Throws an exception if no permission is granted.
+            </summary>
+            <param name="asm"></param>
+        </member>
+        <member name="T:RedGate.BackupReader.SqlVariant">
+            <summary>
+            A representation of the SQL_VARIANT data type.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqlVariant.Equals(System.Object)">
+            <summary>
+            SqlVariant equals
+            <param name="obj">The object to compare with</param>
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.BaseType">
+            <summary>
+            Gets the SQL base type associated with this instance
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.BaseTypeName">
+            <summary>
+            Gets the SQL name associated with this instance
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.Version">
+            <summary>
+            Version number - always 1 currently
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.Data">
+            <summary>
+            The buffer of actual data
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.Object">
+            <summary>
+            Gets the object contained within this SqlVariant object
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.Precision">
+            <summary>
+            Precision value for numeric / decimal types
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.Scale">
+            <summary>
+            Scale value for numeric / decimal types
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.MaxLength">
+            <summary>
+            Maximum permissible length for string and binary types
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqlVariant.CollationID">
+            <summary>
+            Collation ID for string types
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.Strings">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_CodePageFromCollationFailed">
+            <summary>
+              Looks up a localized string similar to Couldn&apos;t get codepage for collation {0}.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_ColumnNotFound">
+            <summary>
+              Looks up a localized string similar to The column &apos;{0}&apos; was not found.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_EncryptedBackup">
+            <summary>
+              Looks up a localized string similar to Encrypted backups are not supported.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_FileNotFound">
+            <summary>
+              Looks up a localized string similar to Specified file &apos;{0}&apos; does not exist.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_GenericInitFatalError">
+            <summary>
+              Looks up a localized string similar to Cannot open backup - possible file corruption.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_IncompleteRaidSet">
+            <summary>
+              Looks up a localized string similar to One or more backups are missing from the specified set of striped backups.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_IndexDisabled">
+            <summary>
+              Looks up a localized string similar to Cannot retrieve data when an index is disabled.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_NoMasterBackup">
+            <summary>
+              Looks up a localized string similar to No full backup specified.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_NoMatchingIndex">
+            <summary>
+              Looks up a localized string similar to No matching index was found for table {0}.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_NotABackupFile">
+            <summary>
+              Looks up a localized string similar to The file &apos;{0}&apos; does not appear to be a Microsoft SQL Server or Red Gate SQL Backup file.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_SysTableAlreadyPopulated">
+            <summary>
+              Looks up a localized string similar to A table with the name &apos;{0}&apos; is already present in the system table store..
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_UnknownDbCompatVersion">
+            <summary>
+              Looks up a localized string similar to Unknown database compatibility version &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_UnknownDbVersion">
+            <summary>
+              Looks up a localized string similar to Unknown database version &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_UnsupportedBackupType_Filegroup">
+            <summary>
+              Looks up a localized string similar to File and filegroup backups are not supported.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_UnsupportedBackupType_Log">
+            <summary>
+              Looks up a localized string similar to Transaction log backups are not supported.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_UnsupportedBackupType_Other">
+            <summary>
+              Looks up a localized string similar to Unsupported backup type (type unknown).
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_UnsupportedBackupType_Partial">
+            <summary>
+              Looks up a localized string similar to Partial backups are not supported.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Error_UnsupportedSqlServerVersion">
+            <summary>
+              Looks up a localized string similar to Encrypted Backups are not supported by BackupReader.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.IntErr_BootPageNotFound">
+            <summary>
+              Looks up a localized string similar to Failed to locate database boot page.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.IntErr_MissingClusteredIndexKey">
+            <summary>
+              Looks up a localized string similar to Error mapping index key - try using clustered index as comparison key.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.License_NotFromRGCode">
+            <summary>
+              Looks up a localized string similar to SQL Backup Reader may not be called from user code.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.License_NotValid">
+            <summary>
+              Looks up a localized string similar to You do not have a valid license for the SQL Backup Reader Toolkit.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.License_WillExpire">
+             <summary>
+               Looks up a localized string similar to This application was produced with an unlicensed copy of the Red Gate SQL Backup Reader Toolkit which will expire on {0}.
+            
+            Please see the online help or go to our web site at www.red-gate.com to find out how to license these components.
+            
+            (c) Red Gate Software Ltd 2007.
+             </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Progress_GettingBackupSets">
+            <summary>
+              Looks up a localized string similar to Getting available backup sets.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Progress_ImportingSysTables">
+            <summary>
+              Looks up a localized string similar to Importing schema information.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Progress_OpeningConnection">
+            <summary>
+              Looks up a localized string similar to Opening backup file(s).
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Progress_ParsingBackups">
+            <summary>
+              Looks up a localized string similar to Parsing selected backup.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Progress_ParsingBackupSets">
+            <summary>
+              Looks up a localized string similar to Parsing backup files.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.Strings.Progress_SettingDifferentialBackup">
+            <summary>
+              Looks up a localized string similar to Initializing differential backup.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.TableName">
+            <summary>
+            Representation of a schema-qualified table name, used when populating additional system tables.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.TableName.#ctor(System.String,System.String)">
+            <summary>
+            Constructs a new TableName structure using the supplied parameters
+            </summary>
+            <param name="schema">Schema or owner</param>
+            <param name="name">Unqualified object name</param>
+        </member>
+        <member name="P:RedGate.BackupReader.TableName.Schema">
+            <summary>
+            Schema or owner, e.g. dbo
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.TableName.Name">
+            <summary>
+            Unqualified object name, e.g. sysobjects
+            </summary>
+        </member>
+    </members>
+</doc>

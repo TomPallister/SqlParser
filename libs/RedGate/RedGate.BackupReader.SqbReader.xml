@@ -1,0 +1,625 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RedGate.BackupReader.SqbReader</name>
+    </assembly>
+    <members>
+        <member name="T:RedGate.BackupReader.SqbReader.AES.SQLBackupEncoding">
+            <summary>
+            This "encoding" is the same as that used by
+            previous versions of SQL Backup.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.#ctor(System.Int32,RedGate.BackupReader.SqbReader.CacheManager{`0,`1}.EvictionNotification,RedGate.BackupReader.SqbReader.CacheManager{`0,`1}.RetrievedNotification)">
+            <summary>
+            Constructs an instance of the cache manager object
+            with the specified maximum cache size.
+            </summary>
+            <param name="maxCacheSize">Maximum number of items
+            to cache at any one time.</param>
+            <param name="evictionNotificationDelegate">Delegate
+            to receive notifications of cache evictions</param>
+            <param name="retrievedNotificationDelegate">Delegate
+            to receive notifications of items being retrieved from
+            the cache</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.BeginWork(`0,System.Boolean,System.Boolean)">
+            <summary>
+            Signals that work should begin on the item represented
+            by the key given. If another thread is already working on
+            that key, then this method returns false, and it has no
+            effect. If no other thread is working on the item, then
+            this method will return true, and the item will be
+            marked as in progress.
+            </summary>
+            <param name="key">The item to start work on</param>
+            <param name="keepCurrentCache">True if the currently
+            cached copy of the item should remain available for other
+            threads to access until work is completed, false if it
+            should be invalidated.</param>
+            <param name="cancelIfCached">Don't allow work to begin if
+            the item is already completed in the cache - that is, return
+            false if there's no point us working on it. Also causes the item
+            to be promoted if it's in the cache.</param>
+            <returns>True if work has been started, false 
+            if it has not due to another thread already working on 
+            this item.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.EndWork(`0,`1)">
+            <summary>
+            Signals that work on the item represented by key K
+            has been completed, and stores the key and value in the
+            cache. Also signals any other threads blocked awaiting
+            this item.
+            </summary>
+            <param name="key">Item key</param>
+            <param name="value">Item value</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.EvictFromCache(System.Int32)">
+            <summary>
+            Evicts n items from the cache
+            </summary>
+            <param name="n"></param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.Promote(`0)">
+            <summary>
+            Promotes an item in the eviction queue after having been used. Currently
+            promotes the item to last in the queue, making this an "Not-MRU" eviction
+            policy. It might be better to only promote things by one position at a time,
+            but then again, maybe not...
+            </summary>
+            <param name="key">The key to promote</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.AbortedWork(`0)">
+            <summary>
+            Signals that work on the item has been aborted by the caller
+            of this method, and that work should no longer be considered
+            in progress.
+            
+            If the item was not marked as being in progress, this is a no-op,
+            allowing for easier clean-up (i.e. aborting after calling EndWork()
+            will not cause work to be lost)
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.GetItem(`0)">
+            <summary>
+            Attempts to retrieve an item from the cache with the given
+            key. Returns default(V) if the key is not present in the 
+            cache.
+            
+            If another thread is currently working on the item requested,
+            then this call will block until work is completed.
+            </summary>
+            <param name="Key">The key of the item desired</param>
+            <returns>The item, or default(V) if not present</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.CacheManager`2.GetOrBeginWork(`0)">
+            <summary>
+            Gets an item or, if the item isn't cached, marks the item
+            as in progress. Essentially an atomic version of GetItem()
+            followed by BeginWork.
+            
+            If another thread is currently working on the item requested,
+            then this call will block until work is completed.
+            </summary>
+            <param name="key">The key to attempt to retrieve</param>
+            <returns>The item, or default(V) if not present</returns>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.Extent.exposedStart">
+            <summary>
+            The start position in the exposed (i.e. MTF format) stream
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.Extent.mappedStart">
+            <summary>
+            The start position of this block in the SQB format file stream. This includes the
+            four bytes that detail the compressed data size, and in the case of RGLZ compression,
+            also the four bytes that indicate the uncompressed data size
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.Extent.exposedLength">
+            <summary>
+            The exposed (i.e. uncompressed) length for the MTF stream. Initially set to -1 if this
+            extent has never been decompressed and therefore if this value is unknown
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.Extent.mappedLength">
+            <summary>
+            Length in the underlying (SQB format) stream, including the four or eight bytes of
+            length data
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.Extent.globalExtentIndex">
+            <summary>
+            Extent ID
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.Extent.deviceNumber">
+            <summary>
+            Virtual Device ID for multi-threaded SQBs
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.Extent.deviceExtentIndex">
+            <summary>
+            Extent ID *for this device*
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.Extent.GetHashCode">
+            <summary>
+            Returns a pretty poor hash code.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.ExtentProvider.m_ExtentLists">
+            <summary>
+            Map from device number to array of extents - one array for each virtual device
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.ExtentProvider.#ctor(System.String,System.String)">
+            <summary>
+            Instantiates an ExtentProvider based on the filename specified.
+            This is a filename rather than a FileStream since we want to open
+            one stream per thread.
+            </summary>
+            <param name="fileName"></param>
+            <param name="password"></param>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.ExtentProvider.m_Available">
+            <summary>
+            Collection of buffers that are currently available for re-use
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.ExtentProvider.m_InUseForIO">
+            <summary>
+            Collection of buffers that are currently in use for IO locally
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.ExtentProvider.m_InCache">
+            <summary>
+            Collection of buffers that are currently in the cache
+            </summary>
+        </member>
+        <member name="F:RedGate.BackupReader.SqbReader.ExtentProvider.m_InCacheAndIO">
+            <summary>
+            Collection of buffers that are currently in use both locally and in the cache
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.GenericRfc2898DeriveBytes">
+            <summary>
+            Implements password-based key derivation functionality, PBKDF2,
+            using any hash-based pseudo-random function parameterized on the password.
+            </summary>
+            <remarks>
+            Similar to <seealso cref="T:System.Security.Cryptography.Rfc2898DeriveBytes"/>, but not restricted to HMACSHA1.
+            </remarks>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.GenericRfc2898DeriveBytes.#ctor(System.Security.Cryptography.HashAlgorithm,System.Byte[],System.Int32)">
+            <param name="prf">A <see cref="T:System.Security.Cryptography.HashAlgorithm"/> parameterized on the password, e.g. <code>new HMACSHA256(password)</code></param>
+            <param name="salt">A salt to use when deriving the key.</param>
+            <param name="iterationCount">The number of iterations to perform. Recommended to be 1000 or greater.</param>
+        </member>
+        <member name="M:SevenZip.ICoder.Code(System.IO.Stream,System.IO.Stream,System.Int64,System.Int64,SevenZip.ICodeProgress)">
+            <summary>
+            Codes streams.
+            </summary>
+            <param name="inStream">
+            input Stream.
+            </param>
+            <param name="outStream">
+            output Stream.
+            </param>
+            <param name="inSize">
+            input Size. -1 if unknown.
+            </param>
+            <param name="outSize">
+            output Size. -1 if unknown.
+            </param>
+            <param name="progress">
+            callback progress reference.
+            </param>
+            <exception cref="T:SevenZip.DataErrorException">
+            if input stream is not valid
+            </exception>
+        </member>
+        <member name="T:SevenZip.DataErrorException">
+            <summary>
+            The exception that is thrown when an error in input stream occurs during decoding.
+            </summary>
+        </member>
+        <member name="T:SevenZip.InvalidParamException">
+            <summary>
+            The exception that is thrown when the value of an argument is outside the allowable range.
+            </summary>
+        </member>
+        <member name="M:SevenZip.ICodeProgress.SetProgress(System.Int64,System.Int64)">
+            <summary>
+            Callback progress.
+            </summary>
+            <param name="inSize">
+            input size. -1 if unknown.
+            </param>
+            <param name="outSize">
+            output size. -1 if unknown.
+            </param>
+        </member>
+        <member name="T:SevenZip.CoderPropID">
+            <summary>
+            Provides the fields that represent properties idenitifiers for compressing.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.DictionarySize">
+            <summary>
+            Specifies size of dictionary.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.UsedMemorySize">
+            <summary>
+            Specifies size of memory for PPM*.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.Order">
+            <summary>
+            Specifies order for PPM methods.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.PosStateBits" -->
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.LitContextBits" -->
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.LitPosBits" -->
+        <member name="F:SevenZip.CoderPropID.NumFastBytes">
+            <summary>
+            Specifies number of fast bytes for LZ*.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.MatchFinder">
+            <summary>
+            Specifies match finder. LZMA: "BT2", "BT4" or "BT4B".
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.NumPasses">
+            <summary>
+            Specifies number of passes.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.Algorithm">
+            <summary>
+            Specifies number of algorithm.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.MultiThread">
+            <summary>
+            Specifies multithread mode.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.EndMarker">
+            <summary>
+            Specifies mode with end marker.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.SqbHeader">
+            <summary>
+            A partial representation of an SQB file header
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.BackupEnd">
+            <summary>
+            Time the backup completed
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.BackupStart">
+            <summary>
+            Time the backup began
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.FirstLsn">
+            <summary>
+            First LSN for this backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.CheckpointLsn">
+            <summary>
+            LSN of the last checkpoint
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.LastLsn">
+            <summary>
+            Last LSN for this backup
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.Server">
+            <summary>
+            Server this backup was made on
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.Database">
+            <summary>
+            Database this backup was made from
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.BackupType">
+            <summary>
+            Type of backup (full, differential etc)
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.Size">
+            <summary>
+            Total size of the backup (in bytes)
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.GroupCount">
+            <summary>
+            Number of SQB Files in current backupset
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbHeader.GroupIndex">
+            <summary>
+            Position of current SQB File in backupset
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.LeakyStack`1">
+            <summary>
+            A "leaky" stack. This is a stack which has a maximum depth specified on creation. If
+            more items are pushed on than can be stored in the depth available, items leak *from the bottom*
+            of the stack - i.e. losing the oldest items on the stack first.
+            
+            This implementation is also thread-safe, and has blocking Pop() operations.
+            </summary>
+            <typeparam name="T">Type of items on the stack</typeparam>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.PasswordProtectedException">
+            <summary>
+            Subclass of SqbReaderException for specifically dealing with password protected
+            SQB files where no (or an incorrect) password is provided.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.SqbReaderException">
+            <summary>
+            General exception for SQB Reader
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbReaderException.#ctor">
+            <summary>
+            Creates a new exception.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbReaderException.#ctor(System.String)">
+            <summary>
+            Creates a new exception with the specified detail message.
+            </summary>
+            <param name="message">Detail message.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbReaderException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new exception with the specified detail message that
+            was caused by the supplied exception.
+            </summary>
+            <param name="message">Detail message.</param>
+            <param name="cause">Cause of exception.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbReaderException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see XML and SOAP Serialization.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.PasswordProtectedException.#ctor">
+            <summary>
+            Creates a new exception.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.PasswordProtectedException.#ctor(System.String)">
+            <summary>
+            Creates a new exception with the specified detail message.
+            </summary>
+            <param name="message">Detail message.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.PasswordProtectedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new exception with the specified detail message that
+            was caused by the supplied exception.
+            </summary>
+            <param name="message">Detail message.</param>
+            <param name="cause">Cause of exception.</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.PasswordProtectedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see XML and SOAP Serialization.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.SqbFile">
+            <summary>
+            A SQB file reader implementation. This class represents the physical SQB
+            file, which may internally contain several logical file streams (one per
+            "thread" in multi-threaded backups).
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.CheckPassword(System.String,System.String)">
+            <summary>
+            Checks whether the password specified will decrypt the SQB file specified
+            </summary>
+            <param name="filename">Path to the SQB file to check</param>
+            <param name="password">Password to check</param>
+            <returns>True if the password is correct, false otherwise</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.IsSqbFile(System.String)">
+            <summary>
+            Determines (to a moderate degree of certainty) if a given file is an SQB file or not
+            </summary>
+            <param name="filename">Path to the file</param>
+            <returns>True if the file is an SQB file, false otherwise</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.GetHeader(System.String,System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Gets the SQB file header from the specified filename and collection of passwords. This operation
+            is pretty cheap.
+            </summary>
+            <param name="filename">Path to the SQB file</param>
+            <param name="passwords">Collection of password strings from which to obtain the password, if required</param>
+            <returns>An SqbHeader for the specified file.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.GetPassword(System.String,System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Gets the appropriate password for a SQB file from a list of options. This is so
+            we can avoid caring about the order of passwords specified in the connection string.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.#ctor(System.String,System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Creates an instance of the SqbFile class for reading the file specified.
+            </summary>
+            <param name="filename">Path to SQB format file.</param>
+            <param name="passwords">Collection of possible passwords for this SQB file, or null</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.#ctor(System.String,System.String)">
+            <summary>
+            Creates an instance of the SqbFile class for reading the file specified.
+            </summary>
+            <param name="filename">Path to SQB format file.</param>
+            <param name="password">Password for this SQB file, if applicable</param>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.Dispose">
+            <summary>
+            Frees resources associated with this object
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbFile.CheckAssemblyRights(System.Reflection.Assembly)">
+            <summary>
+            Checks an assembly's rights to use SQL Backup Reader. Throws an exception if no permission is granted.
+            </summary>
+            <param name="asm"></param>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbFile.Streams">
+            <summary>
+            Gets an array of streams for each logical MTF file contained within
+            this SQB file.
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.SqbStream">
+            <summary>
+            A stream implementation for one logical MTF file contained within an SQB file. This
+            stream implementation is read-only, but seekable.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a sequence of bytes from the current stream and advances the position within 
+            the stream by the number of bytes read.
+            </summary>
+            <param name="buffer">An array of bytes. When this method returns, the buffer 
+            contains the specified byte array with the values between offset and 
+            (offset + count - 1) replaced by the bytes read from the current source.</param>
+            <param name="offset">The zero-based byte offset in buffer at which to begin 
+            storing the data read from the current stream.</param>
+            <param name="count">The maximum number of bytes to be read from the current stream.</param>
+            <returns>The total number of bytes read into the buffer. This can be less than the
+            number of bytes requested if that many bytes are not currently available,
+            or zero (0) if the end of the stream has been reached.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbStream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Sets the position within the current stream.
+            </summary>
+            <param name="offset">A byte offset relative to the origin parameter.</param>
+            <param name="origin">A value of type System.IO.SeekOrigin indicating the 
+            reference point used to obtain the new position.</param>
+            <returns>he new position within the current stream.</returns>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbStream.SetLength(System.Int64)">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbStream.Flush">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.SqbStream.Dispose(System.Boolean)">
+            <summary>
+            Dispose of the stream
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStream.Length">
+            <summary>
+            Gets the current best estimate of the length of the stream. This may not be accurate
+            until all blocks have been read once, but it will be a conservative estimate.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStream.Position">
+            <summary>
+            Gets or sets the position in the stream.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStream.CanRead">
+            <summary>
+            Whether this stream supports reading - returns true
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStream.CanSeek">
+            <summary>
+            Whether this stream supports seeking - returns true
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStream.CanWrite">
+            <summary>
+            Whether this stream supports writing - returns false
+            </summary>
+        </member>
+        <member name="T:RedGate.BackupReader.SqbReader.SqbStrings">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStrings.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStrings.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStrings.Error_UnknownSqbVersion">
+            <summary>
+              Looks up a localized string similar to This backup file was created with an unknown version of SQL Backup..
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStrings.Error_WrongPassword">
+            <summary>
+              Looks up a localized string similar to Cannot decrypt SQB file..
+            </summary>
+        </member>
+        <member name="P:RedGate.BackupReader.SqbReader.SqbStrings.License_NotFromRGCode">
+            <summary>
+              Looks up a localized string similar to SQL Backup Reader may not be called from user code.
+            </summary>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.TVDIHeader.GetHeader(System.Byte[],System.String)">
+            <summary>
+            Attempts to contruct a <see cref="T:RedGate.BackupReader.SqbReader.TVDIHeader"/>.
+            Returns null if the header appears correct but it could not be decrypted (e.g. bad password).
+            </summary>
+            <exception cref="T:System.ArgumentException">bytes is shorter than <see cref="P:RedGate.BackupReader.SqbReader.TVDIHeader.MaxHeaderLength"/></exception>
+            <exception cref="T:System.ArgumentException">bytes is invalid according to <see cref="M:RedGate.BackupReader.SqbReader.TVDIHeader.AreUnencryptedSectionsValid(System.Byte[])"/></exception>
+        </member>
+        <member name="M:RedGate.BackupReader.SqbReader.TVDIHeader4.GetHeader(System.Byte[],System.String)">
+            <summary>
+            Attempts to contruct a <see cref="T:RedGate.BackupReader.SqbReader.TVDIHeader4"/>.
+            Returns null if the header appears correct but it could not be decrypted (e.g. bad password).
+            </summary>
+            <exception cref="T:System.ArgumentException">bytes is shorter than <see cref="P:RedGate.BackupReader.SqbReader.TVDIHeader4.MaxHeaderLength"/></exception>
+            <exception cref="T:System.ArgumentException">bytes is invalid according to <see cref="M:RedGate.BackupReader.SqbReader.TVDIHeader4.AreUnencryptedSectionsValid(System.Byte[])"/></exception>
+        </member>
+    </members>
+</doc>
